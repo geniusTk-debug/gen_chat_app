@@ -1,7 +1,9 @@
+import Chat from "../Model/schema.js";
+
 export async function askAI (reqFromClient) {
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
-    const GROQ_API_KEY = process.env.GROQ_API_KEY;
-
+try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
         method : 'POST',
         headers : {
@@ -13,68 +15,36 @@ export async function askAI (reqFromClient) {
     
         if(res.status === 200) {
             const data = await res.json();
-        console.log("data from ai : ", data, res)
+console.log(reqFromClient,'******')
+console.log("console 2 : ",data.choices[0].message);
+console.log("console 3 : ",data.choices[0].message.content);;
+
+const ai_role = data.choices[0].message.role;
+const ai_content = data.choices[0].message.content;
+const client_role = reqFromClient.messages[0].role;
+const client_content = reqFromClient.messages[0].content;
+
+        const Chat_History = await Chat.create({
+            "message" : [
+                {
+                    "role" : ai_role,
+                    "content" : ai_content
+                },
+                {
+                    "role" : client_role,
+                    "content" : client_content
+                }
+            ]
+        });
+        console.log('Stored success in Mongo DB : ', Chat_History);   
+
         return data;
         } else{
-            console.log(res.status, res.reply);
+            console.log('Failed to requested GROQ_API',res.status, res);
         }
-
+} catch (error) {
+    console.log(error);
 }
 
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const messageReply = {
-
-//         message_1 : 'Hello, how can I help You?',
-//         message_2 : 'Hello, how are you?',
-//         message_3 : 'Hey There!'
-// };
-// const message = [];
-
-// const service = [
-// { 
-//     messageReply : {
-//         message_1 : 'Hello, how can I help You?',
-//         message_2 : 'Hello, how are you?',
-//         message_3 : 'Hey There!'
-//         }
-// },
-// ]
-//    let reply = Array.from({ message : messageReply },(_,i) => {
-//         reply.push(i);
-//     })
-
-    
-
-
-
-// export default service;

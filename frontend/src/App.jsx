@@ -1,84 +1,92 @@
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css'
 
 function App() {
 
   const [message, setMessage] = useState('');
+  const [chatHistory, setChatHistory] = useState('');
   const [userValue, setUserValue] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(null);
   const [UIvalue, setUIValue] = useState('');
   
-useEffect(() => {
-  if(!message.length) {
+useEffect(() => {  
+  if(loading === null) {
     const fetcher = async () => {
-    const res = await fetch('http://localhost:3000/api/chat');
-    if(res.status === 200 || res.ok) {
-      console.log('fetch successfully',res)
-    const d = await res.json();
-    console.log('your data is here : ', d)
-    setMessage(d.choices);
+                const res = await fetch('http://localhost:3000/api/chat');
+              if(res.status === 200) {
+            console.log('fetch successfully',res)
+          const d = await res.json();
+        console.log('Successfully fetch chat history : ', d)
+      setChatHistory(d);
+      } 
     }
-    }
-    fetcher();
+    fetcher(); 
+      
   }
-  else{
-    console.log('reply is waiting your message',!!message.length);
-  }
-})
+},[]);
+
+console.log("chat History", chatHistory);
 
 const sender = async (e)=> {
-        setLoading(true);
-        setUIValue(e.target.elements.client_input.value)
-        e.preventDefault()
-        const body = {
-          "content" : userValue,
-        };
+        e.preventDefault();
+      setLoading(true);
+    setUIValue(e.target.elements.client_input.value);
+    console.log(e.target.elements.client_input.offSetHeight)
+  const body = {
+    "content" : userValue,
+  };
+  try {
+    if(body.length || body) {
+            const res = await fetch('http://localhost:3000/api/chat',{
+          method : 'POST',
+        headers: {
+      'Content-Type': 'application/json'
+    },
+      body : JSON.stringify(body)
+    });
+console.log(res,"****")
+    if(res.status === 200 || res.ok){
+            const data = await res.json();
+            const aiResponse = data.choices;
 
-        try {
-          if(body.length || body) {
-            console.log('user have length', body.content)
-          const res = await fetch('http://localhost:3000/api/chat',{
-            method : 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body : JSON.stringify(body)
-          })
-          if(res.status === 200 || res.ok){
-            setLoading(false);
-            const d = await res.json();
-            setMessage(d.choices);
-            console.log('sent to server successfully', typeof(d.choices), d.choices)
-
-          }
-        }
-        } catch (error) {
+            console.log(aiResponse, res)
+          setMessage(aiResponse);
+        setLoading(false);
+      window.scroll({top : '0', behavior : 'smooth'})
+      console.log('Requested to API successfully...: ', aiResponse)
+    };
+    }
+  } catch (error) {
           console.log('inside catch',error)
         }
         setUserValue('');
       };
 
 
-console.log('first fetch time',message,message.id, message.choices);
+console.log("Starting gen_chat_app : ", message);
 
   return (
 
-    <section style={{maxWidth : '100svw'}}>
+    <div >
       <div className="main-container">
         <div className="heading"></div>
         
-        {!!message.length && (message.map(c => (
-          <div className="chat-head-server" key={message.id}>
-          <img
-        src='https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg'
-        alt='chat head pic'/>
-        <span>{c.message.content}</span>
-        </div>
-        )))}
-  
+        {chatHistory && (chatHistory.map((ch) => (
+          <section className="chat-history" key={ch._id} >
+            <ul className='user font-style-user'>
+              <li>{UIvalue.length ? (UIvalue): (ch.message[1].content)} </li>
+              <li className='font-style absolute-time'>{ch.createdAt.toLocaleString()}</li>
+            </ul>
+            <ul className='assistant font-style-assistant'>
+              <li>{message.length ? (message[0].message.content) : (ch.message[0].content)} </li>
+              <li className='font-style absolute-time'>{ch.createdAt.toLocaleString()} </li>
+            </ul>
+          </section>
+
+        )))};  
               
-              {!!UIvalue.length &&  (<div className="chat-head-client"><span>{UIvalue}</span><img className='chat-head-pic' src='https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg' alt='chat head pic'/></div>)}
+              {/* {!!UIvalue.length &&  (<div className="chat-head-client"><p>{UIvalue}</p></div>)} */}
             <form onSubmit={(e)=>sender(e)} >
             {loading && ( <p style={{position: 'absolute', bottom: '80px', margin: '0 auto'}} className="">loading....</p> )}
                 <input style={{marginRight: '20px'}} autoComplete='off' value={userValue} type='text' name='client_input' onChange={(e)=>setUserValue(e.target.value)} / >
@@ -87,7 +95,7 @@ console.log('first fetch time',message,message.id, message.choices);
       
         </div>
       
-    </section>
+    </div>
     
   )
 }

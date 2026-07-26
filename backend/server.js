@@ -2,7 +2,10 @@ import express from 'express';
 import { configDotenv } from 'dotenv';
 import morgan from 'morgan';
 import router from './Router/router.js';
+import Chat from './Model/schema.js';
+import { connectToMongodb, disConnectToMongodb } from './db/mongodb.js';
 import cors from 'cors';
+import { connect } from 'mongoose';
 
 
 const app = express();
@@ -28,6 +31,14 @@ app.get('/',(req,res)=>{
     res.json('HEllo World')
 });
 
-app.listen(PORT,'localhost',()=>{
-    console.log('app is running on localhost PORT : ', PORT)
-});
+const dbStart = async () => {
+    const client =  await connectToMongodb();
+    
+        if(client){
+            app.listen(PORT,() => {
+            console.log('app is running on localhost : ', PORT)
+        })
+        };
+};
+
+dbStart();

@@ -1,27 +1,35 @@
 import { askAI } from "../Service/service.js";
+import Chat from "../Model/schema.js";
 
 const controller = {
 
     sendToClient : async (req,res) => {
-
-                    return res.status(200).json(askAI)                                  
+                    if (!req.body) {
+                const d = await Chat.find().sort({createdAt : -1})
+            return res.status(200).json(d);
+                    }else {
+                        return res.status(500).json({ msg : 'Chat History Unavailiable' })
+                    }
+                    
+    
     },
 //working//
     mainChatRoom :async (req,res)=>{
                     if(req.body) {
                         const  message  = await req.body.content;
-                        const reqFromClient = {
-                            "model" : "llama-3.1-8b-instant",
-                            "messages" : [
-                                {
-                                    "role" : "user",
-                                    "content" : message
-                                },
-                            ]
-                        }
+                    const reqFromClient = {
+                        "model" : "llama-3.1-8b-instant",
+                        "messages" : [
+                            {
+                                "role" : "user",
+                                "content" : message
+                            },
+                        ]
+                    }
                         
-                        const reply = await askAI(reqFromClient);
-                        return res.status(200).json(reply)
+                        const aiReply = await askAI(reqFromClient);
+                    console.log("In response to client section : ",aiReply)
+                return res.status(200).json(aiReply);
                         
                     }
                     else {
