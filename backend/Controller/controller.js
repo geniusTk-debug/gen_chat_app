@@ -1,3 +1,4 @@
+import { openAI } from "../Service/openAI.js";
 import { askAI } from "../Service/service.js";
 import Chat from "../Model/schema.js";
 
@@ -17,6 +18,7 @@ const controller = {
     mainChatRoom :async (req,res)=>{
                     if(req.body) {
                         const  message  = await req.body.content;
+    
                     const reqFromClient = {
                         "model" : "llama-3.1-8b-instant",
                         "messages" : [
@@ -26,7 +28,7 @@ const controller = {
                             },
                         ]
                     }
-                        
+            
                         const aiReply = await askAI(reqFromClient);
                     console.log("In response to client section : ",aiReply)
                 return res.status(200).json(aiReply);

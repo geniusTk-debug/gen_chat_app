@@ -7,7 +7,6 @@ import { connectToMongodb, disConnectToMongodb } from './db/mongodb.js';
 import cors from 'cors';
 import { connect } from 'mongoose';
 
-
 const app = express();
 app.use(cors())
 app.use(express.json());
@@ -16,15 +15,6 @@ configDotenv();
 app.use(morgan('dev'));
 
 const PORT = process.env.PORT;
-
-
-
-
-
-
-
-
-
 
 //testing
 app.get('/',(req,res)=>{
