@@ -1,0 +1,121 @@
+.register-component {
+    width: min(1220px, 100vw);
+    box-sizing: content-box;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgb(28, 26, 26);
+}
+
+.register-component .justify-between{
+    width: min(400px, 90%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.register-component .justify-between .heading {
+    cursor: pointer;
+    min-height: 40px;
+    text-shadow: 1px 2px 2px red;
+    mask-image: linear-gradient(to both, gray, transparent 90%);
+    text-decoration: none;
+}
+
+.register-component .justify-between .heading_ {
+    min-height: 40px;
+    text-shadow: 1px 2px 2px red;
+    mask-image: linear-gradient(to both, gray, transparent 90%);
+    text-decoration: none;
+}
+
+
+.register-component .heading::before{
+    content: "Login";
+    display: block;
+    color : rgb(123, 255, 246);
+    font-size: 1.50rem;
+    font-weight: 800;
+}
+
+.register-component .justify-between .heading_::after{
+    content: "Register";
+    display: block;
+    color: rgb(123, 255, 246);
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.register-component .justify-between .active {
+    text-decoration: underline;
+    text-decoration-color: rgb(123, 255, 246);
+    text-decoration-thickness: 75%;
+    text-decoration-skip-ink: all;
+}
+
+.register-component .register-form {
+    width: min(520px, 100%);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+    border: 1px solid rgb(123, 255, 246);
+    border-radius: 10px;
+    background: black;
+    box-shadow: 0 18px 50px #2E4030;
+    backdrop-filter: blur(15px);
+    margin-top: 5px;
+}
+
+.register-component .register-form .flex {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.register-component .register-form .flex span{
+    display: flex;
+    color: red;
+    font-size: 13px;
+}
+.register-component .register-form .flex .spinner-border{
+    color: #00fa1d;
+    display: flex;
+    margin: 15px 0px 5px 0px;
+    width: 30px;
+    height: 30px;
+}
+::-webkit-animation:spinner-border{
+    animation: spinner-border .75s linear cubic-bezier(0.11, 0.21, 0.58, 1) .5s infinite;
+}
+
+.register-component .register-form form {
+    display: flex;
+    row-gap: 15px;    
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color : white;
+    font-weight: 500;
+}
+
+.register-component .register-form form input {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-width: 300px;
+}
+
+.register-component .register-form .register-btn{
+    width: 80px;
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}

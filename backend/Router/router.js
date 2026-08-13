@@ -8,6 +8,12 @@ const router = express.Router();
 router.get('/api/chat',controller.sendToClient);
 //store on **
 router.post('/api/chat',controller.mainChatRoom);
+
+//register
+router.post('/api/user-acc/register', controller.register ) 
+
+//login
+router.post('/api/user-acc/login', controller.login);
 // //get single(id)
 // router.get('/api/chat/id',controller.sendToClientSingle);
 // //update single(id)

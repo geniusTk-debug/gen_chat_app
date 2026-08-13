@@ -1,6 +1,7 @@
 import { openAI } from "../Service/openAI.js";
 import { askAI } from "../Service/service.js";
 import Chat from "../Model/schema.js";
+import User from "../Model/authSchema.js";
 
 const controller = {
 
@@ -31,7 +32,7 @@ const controller = {
             
                         const aiReply = await askAI(reqFromClient);
                     console.log("In response to client section : ",aiReply)
-                return res.status(200).json(aiReply);
+                return res.status(200).json(aiReply );
                         
                     }
                     else {
@@ -40,18 +41,36 @@ const controller = {
                     
     },
 
-    sendToClientSingle : (req,res) => {
-                    console.log(req.body);
-                    res.json('get single(id)')
+
+    register : async (req, res) => {
+        try {
+            
+            const { username, email, password } = await req.body;
+            const registerProcess = await User.register( username, email, password );
+                
+        return res.status(200).json(registerProcess);
+        } catch (error) {
+            return res.status(400).json(error.message)
+        }
     },
-    update : (req,res) => {
-                    console.log(req.body);
-                    res.json('update(id)')
-    },
-    remove : (req,res) => {
-                    console.log(req.body)
-                    res.json('delete(id)')
+
+
+
+    login : (req, res) =>{
+        return res.send('hit login api')
     }
+    // sendToClientSingle : (req,res) => {
+    //                 console.log(req.body);
+    //                 res.json('get single(id)')
+    // },
+    // update : (req,res) => {
+    //                 console.log(req.body);
+    //                 res.json('update(id)')
+    // },
+    // remove : (req,res) => {
+    //                 console.log(req.body)
+    //                 res.json('delete(id)')
+    // }
                
 }
 
