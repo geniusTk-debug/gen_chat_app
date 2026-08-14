@@ -3,25 +3,32 @@ import './css/login.css';
 import useFetch from "../Hooks/useFetch";
 
 export default function Login() {
-    const {loginHandler} = useFetch();
+    const {loginHandler, loading, error } = useFetch();
   return (
     <div className='login-component'>
         <div className="justify-between">
-            <NavLink className='heading' to='/acc/login' ></NavLink>
-            <NavLink className="heading_" to='/acc/register' ></NavLink>
+            <NavLink className='heading' to='/user-acc/login' ></NavLink>
+            <NavLink className="heading_" to='/user-acc/register' ></NavLink>
         </div>
  
 
         <div className="login-form">
-            <form className="form" autoComplete="off" onSubmit={loginHandler} >
+            <form className="form" onSubmit={loginHandler} >
                 <label>Username
-                    <input placeholder='email or username' type="text" />
+                    <input autoComplete="off" placeholder='email or username' type="text" name="email" />
                 </label>
                 <label>Password
-                    <input placeholder='password' type='password' />
+                    <input placeholder='password' type='password' name="password" />
                 </label>
 
-                <button className="login-btn" type="submit">Login</button>
+                <div className="flex">
+                    {!!error && ( <span>{`Login failed - ${error}` }</span> )}
+                    {!!loading && (<div className="spinner-border"role="status">
+                    <span className="sr-only">Loading...</span>
+                    </div>)}
+                    <button className="login-btn" type="submit">
+                    Login</button>
+                </div>
             </form>
         </div>
 

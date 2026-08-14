@@ -7,8 +7,8 @@ export default function Register() {
   return (
     <div className='register-component'>
         <div className="justify-between">
-            <NavLink className='heading' to='/acc/login' ></NavLink>
-            <NavLink className='heading_' to='/acc/register' ></NavLink>
+            <NavLink className='heading' to='/user-acc/login' ></NavLink>
+            <NavLink className='heading_' to='/user-acc/register' ></NavLink>
         </div>
  
 

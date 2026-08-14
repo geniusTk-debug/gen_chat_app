@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { model, Schema } from "mongoose";
-import bcrypt from 'bcrypt';
+import bcrypt, { hash } from 'bcrypt';
 
 const user = new Schema({
     user_genchat : [
@@ -46,6 +46,21 @@ user.statics.register = async function User( username, email, password ) {
         return true;            
                 
 };
+
+user.statics.login = async function User( email, password ) {
+    
+    const checkMail = await this.findOne({ "user_genchat.email" : email })
+
+    if(!checkMail) throw new Error("User doesn't existed with this Email")
+
+    const userHash = checkMail.user_genchat[0].password;
+        
+    const isCorrect = await bcrypt.compare(password, userHash)
+
+    if(!isCorrect) throw new Error('Incorrect password, check your password and try again')
+
+        return checkMail;
+}
 
 const User = model('user_genchat', user )
 

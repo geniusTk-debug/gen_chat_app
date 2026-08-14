@@ -56,22 +56,22 @@ const controller = {
 
 
 
-    login : (req, res) =>{
-        return res.send('hit login api')
+    login : async (req, res) =>{
+        try {
+            const { email, password } = await req.body;
+            
+            const loginProcess = await User.login( email, password );
+
+            return res.status(200).json(loginProcess);
+
+        } catch (error) {
+
+            console.log(error.message)
+
+            return res.status(400).json(error.message);
+        }
     }
-    // sendToClientSingle : (req,res) => {
-    //                 console.log(req.body);
-    //                 res.json('get single(id)')
-    // },
-    // update : (req,res) => {
-    //                 console.log(req.body);
-    //                 res.json('update(id)')
-    // },
-    // remove : (req,res) => {
-    //                 console.log(req.body)
-    //                 res.json('delete(id)')
-    // }
-               
+
 }
 
 
