@@ -23,17 +23,17 @@ const user = new Schema({
 
 user.statics.register = async function User( username, email, password ) {
 
-    const userExisted = await this.findOne({"user_genchat.email": email})
+    const user = await this.findOne({"user_genchat.email": email})
 
-    if(userExisted) {
-        console.log(userExisted)
+    if(user) {
+        console.log(user)
         throw new Error("User already exist with this Email")
     }
 
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(password, salt);
 
-        const stored = await this.create({
+        const saved = await this.create({
             user_genchat : [
                 {
                     username,
@@ -43,23 +43,23 @@ user.statics.register = async function User( username, email, password ) {
             ]
         })
 
-        return true;            
+        return saved;            
                 
 };
 
 user.statics.login = async function User( email, password ) {
     
-    const checkMail = await this.findOne({ "user_genchat.email" : email })
+    const user = await this.findOne({ "user_genchat.email" : email })
 
-    if(!checkMail) throw new Error("User doesn't existed with this Email")
+    if(!user) throw new Error("User doesn't existed with this Email")
 
-    const userHash = checkMail.user_genchat[0].password;
+    const userHash = user.user_genchat?.[0]?.password;
         
     const isCorrect = await bcrypt.compare(password, userHash)
 
     if(!isCorrect) throw new Error('Incorrect password, check your password and try again')
 
-        return checkMail;
+        return user;
 }
 
 const User = model('user_genchat', user )

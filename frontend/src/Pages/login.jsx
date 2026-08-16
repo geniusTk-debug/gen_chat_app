@@ -1,19 +1,20 @@
 import { NavLink } from "react-router"
-import './css/login.css';
-import useFetch from "../Hooks/useFetch";
+import './style/login.css';
+import useAuth from "../Hooks/useAuth";
 
 export default function Login() {
-    const {loginHandler, loading, error } = useFetch();
+    const auth = useAuth();
+
   return (
     <div className='login-component'>
         <div className="justify-between">
-            <NavLink className='heading' to='/user-acc/login' ></NavLink>
-            <NavLink className="heading_" to='/user-acc/register' ></NavLink>
+            <NavLink className='heading' to='/user/login' ></NavLink>
+            <NavLink className="heading_" to='/user/register' ></NavLink>
         </div>
  
 
         <div className="login-form">
-            <form className="form" onSubmit={loginHandler} >
+            <form className="form" onSubmit={auth.loginHandler} >
                 <label>Username
                     <input autoComplete="off" placeholder='email or username' type="text" name="email" />
                 </label>
@@ -22,9 +23,8 @@ export default function Login() {
                 </label>
 
                 <div className="flex">
-                    {!!error && ( <span>{`Login failed - ${error}` }</span> )}
-                    {!!loading && (<div className="spinner-border"role="status">
-                    <span className="sr-only">Loading...</span>
+                    {!!auth.error && ( <span>{`Login failed - ${auth.error}` }</span> )}
+                    {!!auth.loading && (<div className="spinner-border"role="status">
                     </div>)}
                     <button className="login-btn" type="submit">
                     Login</button>

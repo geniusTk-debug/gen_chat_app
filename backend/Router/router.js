@@ -10,10 +10,10 @@ router.get('/api/chat',controller.sendToClient);
 router.post('/api/chat',controller.mainChatRoom);
 
 //register
-router.post('/api/user-acc/register', controller.register ) 
+router.post('/api/user/register', controller.register ) 
 
 //login
-router.post('/api/user-acc/login', controller.login);
+router.post('/api/user/login', controller.login);
 // //get single(id)
 // router.get('/api/chat/id',controller.sendToClientSingle);
 // //update single(id)

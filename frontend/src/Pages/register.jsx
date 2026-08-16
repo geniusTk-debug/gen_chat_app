@@ -1,21 +1,20 @@
-import './css/register.css';
+import useAuth from '../Hooks/useAuth';
+import './style/register.css';
 import { NavLink } from 'react-router';
-import useFetch from '../Hooks/useFetch'
 
 export default function Register() {
-  const {registerHandler, error, loading } =  useFetch()
+    const auth = useAuth();
   return (
     <div className='register-component'>
         <div className="justify-between">
-            <NavLink className='heading' to='/user-acc/login' ></NavLink>
-            <NavLink className='heading_' to='/user-acc/register' ></NavLink>
+            <NavLink className='heading' to='/user/login' ></NavLink>
+            <NavLink className='heading_' to='/user/register' ></NavLink>
         </div>
- 
 
         <div className="register-form">
-            <form className='form' onSubmit={registerHandler} >
+            <form className='form' onSubmit={auth.registerHandler} >
                 <label>Username
-                    <input autoComplete='off' placeholder='Username' name='username' type="text" />
+                    <input autoComplete='no' placeholder='Username' name='username' type="text" />
                 </label>
                 <label>Email
                     <input autoComplete='no' placeholder='Email address' name='email' type="text" />
@@ -28,8 +27,8 @@ export default function Register() {
                 </label>
 
                 <div className="flex">
-                    {!!error && ( <span>{`Registration Failed - ${error}` }</span> )}
-                    {!!loading && (<div className="spinner-border"role="status">
+                    {!!auth.error && ( <span>{`Registration Failed - ${auth.error}` }</span> )}
+                    {!!auth.loading && (<div className="spinner-border"role="status">
                     <span className="sr-only">Loading...</span>
                     </div>)}
                     <button className="register-btn" type="submit">
@@ -39,5 +38,5 @@ export default function Register() {
         </div>
 
     </div>
-  )
+)
 }

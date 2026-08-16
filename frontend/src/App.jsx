@@ -1,10 +1,9 @@
-import Home from './component/Home';
+import { Outlet } from 'react-router';
+
 
 export default function App() {
   return (
-      <>
-        <Home />
-      </>
+      <Outlet />
   )
 }
 

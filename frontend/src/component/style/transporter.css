@@ -18,22 +18,6 @@
   backdrop-filter: blur(20px);
 }
 
-.main-container form p {
-  position: absolute;
-  left: 16px;
-  bottom: calc(100% + 10px);
-  margin: 0;
-  padding: 8px 12px;
-  color: #d9fff7;
-  border: 1px solid rgba(76, 220, 190, 0.22);
-  border-radius: 8px;
-  background: rgba(8, 13, 20, 0.72);
-  font-size: 0.86rem;
-  font-style: normal;
-  font-weight: 700;
-  text-shadow: none;
-}
-
 form input {
   width: 100%;
   min-height: 48px;
@@ -64,7 +48,7 @@ form button {
   color: #062621;
   border: 0;
   border-radius: 8px;
-  background: #75f0dc;
+  background: #69f8e0;
   box-shadow: 0 12px 28px rgba(23, 207, 179, 0.24);
   font-size: 0.96rem;
   font-style: normal;
@@ -72,6 +56,16 @@ form button {
   text-shadow: none;
   cursor: pointer;
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+form .spinner-border {
+  min-width: 20px;
+  min-height: 20px;
+  display: flex;
+  align-self: center;
+  color: whitesmoke;
+  background: transparent;
+  cursor: wait;
 }
 
 form button:hover {

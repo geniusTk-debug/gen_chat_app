@@ -1,40 +1,48 @@
-
-import { useEffect, useState } from 'react';
+import useFetch from '../Hooks/useFetch';
 import './style/home.css';
+// import Register from '../Pages/register';
+// import Login from '../Pages/login';
+import ChatHistory from './Chathistory';
+import ChatBox from './Chatbox';
 import Transporter from './Transporter';
-import ChatHistory from './ChatHistory';
 
 
 export default function Home() {
 
   const url = 'http://localhost:3000/api/chat';
-  const [ chatHistory, setChatHistory ] = useState([]);
 
-  useEffect(() => {
-    const fetcher = async () => {
-      const res = await fetch(url);
-      if(res.status === 200 || res.ok) {
-        const j = await res.json();
-        setChatHistory(j);
-      } else {
-        console.log('Failed to fetch chat history. Check your internet connection and try again',res.error )
-      }
-    }
-    fetcher();
-  },[url])
-console.log(chatHistory)
+      const genChat = useFetch(url);
+        
+      console.log(Date().toLocaleString(genChat.chatHistory?.[0]?.createdAt))
+      console.log(genChat.chatHistory)
+
   return (
+      <>
+     
     <div>
       <div className="main-container">
+
         <div className="heading"></div>
-          <ChatHistory chatHistory={chatHistory} />
-      
-      
-      
+
+          {!genChat.frontValue ?
+          (<ChatHistory
+          chatHistory={genChat.chatHistory}/>)
+          
+          :
+          (<ChatBox
+            frontValue={genChat.frontValue}
+              backValue={genChat.backValue} />)}
       
       </div>
+  
+          <Transporter
+          requestor={genChat.requestor}
+            loading={genChat.loading}/>
 
-      <Transporter />
     </div>
+      
+      
+      </>
+
   )
-}
+};

@@ -1,140 +1,87 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
 
 export default function useFetch(url) {
-    const Navigate = useNavigate();
-    const [message, setMessage] = useState('');
-const [userValue, setUserValue] = useState('');
-const [loading, setLoading] = useState(false);
-const [UIvalue, setUIValue] = useState('');
-const [error, setError] = useState(null);
 
-const requestor = async (e)=> {
-                e.preventDefault();
-            setUIValue(e.target.elements.client_input.value);
-        setLoading(true);
-    const body = {
-        "content" : userValue,
-    };
+    const [ chatHistory, setChatHistory ] = useState([]);
+        const [backValue, setBackValue] = useState('');
+            const [frontValue, setFrontValue] = useState('');
+                const [loading, setLoading] = useState(false);
+                    
+
+    const requestor = async (e)=> {
+
+            setLoading(true);
+
     try {
-    if(body.length || body) {
-    const res = await fetch(url,{
-        method : 'POST',
-        headers: {
-    'Content-Type': 'application/json'
-    },
-    body : JSON.stringify(body)
-    });
 
-    if(res.status === 200 || res.ok) {
-                const data = await res.json();
-            const aiResponse = data.choices;
-        setMessage(aiResponse);
-    setLoading(false);
-window.scroll({top : '0', behavior : 'smooth'})
-    console.log('Requested to API successfully...: ', aiResponse)
-    };
-    }
-    } catch (error) {
-    console.log('inside catch',error)
-        }
-    setUserValue('');
-    };
+        const value = e.target.elements.client_input.value;
+            setFrontValue(value)
+                console.log(value)
+                    const body = {
+                        "content" : value,
+        };
 
-const registerHandler = async (e) => {
-    e.preventDefault();
-    setError(null);    
-        try {
-            setLoading(true)
-            const target = e.target.elements;
-            if(target.password.value !== target.confirm_password.value) {
-                throw new Error('password must be same');
-            }
-            const password = target.password.value;
-            const email = target.email.value;
-            const username = target.username.value;
-        const body = {
-            username,
-            email,
-            password,
-        }
-        console.log(body)
-        const res = await fetch('http://localhost:3000/api/user-acc/register', {
+        const res = await fetch(url,{
             method : 'POST',
-            headers : {
-                'Content-Type' : 'application/json',
-            },
-            body : JSON.stringify(body)
-        });
-        const data = await res.json();
-        if(res.ok) {
-            console.log(data);
-            setLoading(false);
-        }else {
-            console.log('error to show',data)
-            setError(data)
-            setLoading(false)
-        }
-        } catch (error) {
-            console.log(error.message);
-            setError(error.message)
-            setLoading(false);
-        }
-}
-
-const loginHandler = async (e) => {
-    e.preventDefault()
-    setError(null);
-    try {
-        setLoading(true);
-        const target = e.target.elements;
-    const body = {
-        email : target.email.value,
-        password : target.password.value
-    };
-    console.log(body)
-    if(!body.email || !body.password) {
-        setLoading(false);
-        return;
-    }
-
-    const res = await fetch('http://localhost:3000/api/user-acc/login', {
-        method : 'POST',
-        headers : {
-            'Content-Type' : 'application/json'
+                headers: {
+                    'Content-Type': 'application/json'
         },
-        body : JSON.stringify(body)
-    });
+                        body : JSON.stringify(body)
+        });
 
-    if(res.status === 200 || res.ok) {
         const data = await res.json();
-        setLoading(false);
-        console.log(res, data);
-        await Navigate('/')
-    } else {
-        setLoading(false);
-        
-        setError(await res.json());
+
+        if(res.status === 200 || res.ok) {
+
+        const aiResponse = data.choices;
+            setBackValue(aiResponse);
+                setLoading(false);
+                    window.scroll({top : '0', behavior : 'smooth'})
+                        console.log( aiResponse )
+
+        };
+
+    } 
+    catch (error) {
+
+        console.log('inside catch',error)
+            setLoading(false);
     }
 
-    } catch (error) {
-        console.log('inside catch',error);
-        setError(error.message)
-        setLoading(false)
-    }
-};
+    };
 
 
 
+    useEffect(() => {
+    
+        const fetcher = async () => {
+            const res = await fetch(url);
+
+        if(res.status === 200 || res.ok) {
+            const data = await res.json();
+                setChatHistory(data);
+        }
+        else {
+            console.log(
+                'Failed to fetch chat history. Check your internet connection and try again',res.error )
+        }
+        }
+
+    fetcher();
+    
+    },[url])
 
     return { 
-        message,
-        userValue, setUserValue,
-        UIvalue, setUIValue,
+        //to <ChatHistory/>
+        chatHistory,
+
+        //to <ChatBox />
+        backValue,
+        frontValue,
+
+        //to <Transporter />
         requestor,
         loading ,
-        registerHandler,
-        error,
-        loginHandler,
+
     }
 };

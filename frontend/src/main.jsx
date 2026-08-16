@@ -6,5 +6,5 @@ import Route from './Router/Route'
 
 
 createRoot(document.getElementById('root')).render(
- <Route />
+    <Route />
 )

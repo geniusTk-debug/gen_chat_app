@@ -6,19 +6,30 @@ import Chat from './Model/schema.js';
 import { connectToMongodb, disConnectToMongodb } from './db/mongodb.js';
 import cors from 'cors';
 import { connect } from 'mongoose';
+import cookieParser from 'cookie-parser';
 
 const app = express();
-app.use(cors())
-app.use(express.json());
+
+app.use(cookieParser())
+app.use(cors(
+    {
+        origin : 'http://localhost:5173',
+        credentials : true,
+    }
+))
 app.use(router);
+app.use(express.json());
 configDotenv();
 app.use(morgan('dev'));
+
 
 const PORT = process.env.PORT;
 
 //testing
-app.get('/',(req,res)=>{
-    res.json('HEllo World')
+app.get('/cookies',(req,res)=>{
+    
+    res.cookie('name', 'May TTA')
+    return res.send('cookie set')
 });
 
 const dbStart = async () => {

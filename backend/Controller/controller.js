@@ -2,6 +2,8 @@ import { openAI } from "../Service/openAI.js";
 import { askAI } from "../Service/service.js";
 import Chat from "../Model/schema.js";
 import User from "../Model/authSchema.js";
+import createToken from "../Helper/jwt.js";
+import { timeLimit } from "../Helper/jwt.js";
 
 const controller = {
 
@@ -43,15 +45,20 @@ const controller = {
 
 
     register : async (req, res) => {
-        try {
             
-            const { username, email, password } = await req.body;
-            const registerProcess = await User.register( username, email, password );
-                
-        return res.status(200).json(registerProcess);
-        } catch (error) {
-            return res.status(400).json(error.message)
-        }
+    try {
+        console.log(req.username)
+        const { email, username, password } = req.body
+        console.log(req.body)
+        console.log(req?.body?.username)
+        const user = await User.register(username, email, password );
+        const token = await createToken(user._id);
+        console.log(token)
+        res.cookie('jwt', token, { httpOnly : true, maxAge : timeLimit * 1000 } )
+    return res.status(200).json({ user, token });
+    } catch (error) {
+        return res.status(400).json(error.message)
+    }
     },
 
 
