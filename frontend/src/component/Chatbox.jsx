@@ -1,6 +1,6 @@
 
 import './style/chatHistory.css'
-export default function Chatbox({ frontValue, backValue }) {
+export default function Chatbox({ frontValue, backValue, loading }) {
 
   const time = new Date();
     const hours = time.getHours() < 10 
@@ -33,7 +33,11 @@ return (
         </ul>
 
         <ul className='assistant font-style-assistant'>
-          <li>{ backValue?.[0]?.message?.content } </li>
+          {loading
+          ?
+          (<li style={{color:'yellowgreen'}}>Thinking.....</li>)
+          :
+          (<li>{ backValue?.[0]?.message?.content } </li>)}
           <li className='font-style absolute-time'>
             { (`${hours}:${minutes}:${seconds}`).toLocaleString() }</li>
         </ul>

@@ -16,15 +16,15 @@ export default function useFetch(url) {
 
         const value = e.target.elements.client_input.value;
             setFrontValue(value)
-                console.log(value)
                     const body = {
                         "content" : value,
         };
-
+        console.log(body)
         const res = await fetch(url,{
             method : 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+                credentials : 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
         },
                         body : JSON.stringify(body)
         });
@@ -55,7 +55,7 @@ export default function useFetch(url) {
     useEffect(() => {
     
         const fetcher = async () => {
-            const res = await fetch(url);
+            const res = await fetch(url,{ credentials : 'include' });
 
         if(res.status === 200 || res.ok) {
             const data = await res.json();

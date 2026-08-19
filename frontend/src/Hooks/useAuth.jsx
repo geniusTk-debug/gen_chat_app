@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useAuthContext } from "./useAuthContext";
 
 
 export default function useAuth () {
     const Navigate = useNavigate();
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const { login } = useAuthContext();
 
 
     const registerHandler = async (e) => {
@@ -76,10 +78,11 @@ const loginHandler = async (e) => {
         body : JSON.stringify(body)
     });
 
+    const data = await res.json();
     if(res.status === 200 || res.ok) {
-        const data = await res.json();
         setLoading(false);
-        console.log(res, data);
+        login(data)
+        // localStorage.setItem('user', JSON.stringify(data?.user_genchat?.[0]));
         await Navigate('/')
     } else {
         setLoading(false);

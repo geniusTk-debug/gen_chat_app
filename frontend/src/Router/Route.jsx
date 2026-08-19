@@ -3,6 +3,8 @@ import App from '../App';
 import Home from "../component/Home";
 import Register from "../Pages/register";
 import Login from '../Pages/login';
+import { AuthContextProvider } from '../Hooks/useAuthContext'
+import ProtectedPages from "../middleware/protectedPages";
 
 export default function Route() {
     const router = createBrowserRouter(
@@ -14,7 +16,11 @@ export default function Route() {
 
                     {
                         index : true,
-                        element : <Home />,
+                        element : [
+                            <ProtectedPages>
+                                <Home />
+                            </ProtectedPages>
+                        ]
 
                     },
 
@@ -34,6 +40,8 @@ export default function Route() {
     )
 
     return (
-        <RouterProvider router={router} />
+        <AuthContextProvider>
+            <RouterProvider router={router} />
+        </AuthContextProvider>
     )
 }
