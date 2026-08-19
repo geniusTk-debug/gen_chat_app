@@ -7,22 +7,19 @@ try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
         method : 'POST',
         headers : {
-            'Content-Type' : 'application/json',
-            'Authorization' : `Bearer ${GROQ_API_KEY}`
-        },
-        body : JSON.stringify(reqFromClient)
-        });
-    
-        if(res.status === 200) {
-            const data = await res.json();
-console.log(reqFromClient,'******')
-console.log("console 2 : ",data.choices[0].message);
-console.log("console 3 : ",data.choices[0].message.content);;
+        'Content-Type' : 'application/json',
+        'Authorization' : `Bearer ${GROQ_API_KEY}`
+    },
+    body : JSON.stringify(reqFromClient)
+    });
 
-const ai_role = data.choices[0].message.role;
-const ai_content = data.choices[0].message.content;
-const client_role = reqFromClient.messages[0].role;
-const client_content = reqFromClient.messages[0].content;
+        const data = await res.json();
+        if(res.status === 200) {
+        console.log(data, "in service.js")
+        const ai_role = data?.choices?.[0]?.message?.role;
+        const ai_content = data?.choices?.[0]?.message?.content;
+        const client_role = reqFromClient.messages[0].role;
+        const client_content = reqFromClient.messages[0].content;
 
         const Chat_History = await Chat.create({
             "message" : [
@@ -40,11 +37,22 @@ const client_content = reqFromClient.messages[0].content;
 
         return data;
         } else{
-            console.log('Failed to requested GROQ_API',res.status, res);
+            console.log('Failed to requested GROQ_API',data, res);
         }
 } catch (error) {
-    console.log(error);
+    console.log(error?.message);
 }
 
 };
 
+
+
+//check open ai models
+// const res = await fetch('https://api.groq.com/openai/v1/models', {
+    //     headers : {
+    //         'Authorization' : `Bearer ${GROQ_API_KEY}`
+    //     },
+        
+    // })
+    // const d = await res.json();
+    // console.log(d.data?.map(model => model.id))

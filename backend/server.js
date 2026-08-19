@@ -1,12 +1,14 @@
 import express from 'express';
 import { configDotenv } from 'dotenv';
 import morgan from 'morgan';
+import { authRoute } from './Router/authRouter.js';
 import router from './Router/router.js';
 import Chat from './Model/schema.js';
 import { connectToMongodb, disConnectToMongodb } from './db/mongodb.js';
 import cors from 'cors';
 import { connect } from 'mongoose';
 import cookieParser from 'cookie-parser';
+import authMiddleware from './Middleware/authMiddleware.js';
 
 const app = express();
 
@@ -17,9 +19,10 @@ app.use(cors(
         credentials : true,
     }
 ))
-app.use(router);
-app.use(express.json());
 configDotenv();
+app.use(express.json());
+app.use('/api/user',authMiddleware, authRoute);
+app.use(authMiddleware,router);
 app.use(morgan('dev'));
 
 

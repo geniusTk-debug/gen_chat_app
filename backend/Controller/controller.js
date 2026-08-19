@@ -7,7 +7,7 @@ import { timeLimit } from "../Helper/jwt.js";
 
 const controller = {
 
-    sendToClient : async (req,res) => {
+    chatHistory : async (req,res) => {
                     if (!req.body) {
                 const d = await Chat.find().sort({createdAt : -1})
             return res.status(200).json(d);
@@ -18,12 +18,12 @@ const controller = {
     
     },
 //working//
-    mainChatRoom :async (req,res)=>{
+    integrate :async (req,res)=>{
                     if(req.body) {
-                        const  message  = await req.body.content;
+                        const  message  = await req.body?.content;
     
-                    const reqFromClient = {
-                        "model" : "llama-3.1-8b-instant",
+                    const clientReq = {
+                        "model" : "openai/gpt-oss-20b",
                         "messages" : [
                             {
                                 "role" : "user",
@@ -31,9 +31,9 @@ const controller = {
                             },
                         ]
                     }
-            
-                        const aiReply = await askAI(reqFromClient);
-                    console.log("In response to client section : ",aiReply)
+                    console.log(clientReq)
+                        const aiReply = await askAI(clientReq);
+                    console.log(aiReply)
                 return res.status(200).json(aiReply );
                         
                     }
@@ -43,42 +43,44 @@ const controller = {
                     
     },
 
-
+    
     register : async (req, res) => {
-            
-    try {
-        console.log(req.username)
-        const { email, username, password } = req.body
-        console.log(req.body)
-        console.log(req?.body?.username)
-        const user = await User.register(username, email, password );
-        const token = await createToken(user._id);
-        console.log(token)
-        res.cookie('jwt', token, { httpOnly : true, maxAge : timeLimit * 1000 } )
+        
+        try {
+            const { email, username, password } = req.body;
+            const user = await User.register(username, email, password );
+            const token = await createToken(user._id);
+            res.cookie('jwt', token, { httpOnly : true, maxAge : timeLimit * 1000 } )
     return res.status(200).json({ user, token });
-    } catch (error) {
-        return res.status(400).json(error.message)
-    }
+} catch (error) {
+    return res.status(400).json(error.message)
+}
     },
 
 
 
     login : async (req, res) =>{
         try {
-            const { email, password } = await req.body;
+            const { email, password } = req.body;
             
-            const loginProcess = await User.login( email, password );
-
-            return res.status(200).json(loginProcess);
-
+            const user = await User.login( email, password );
+            const token = await createToken(user._id);
+            res.cookie('jwt', token, { httpOnly : true, maxAge : timeLimit * 1000 })
+            
+            return res.status(200).json(user);
+            
         } catch (error) {
-
+            
             console.log(error.message)
-
             return res.status(400).json(error.message);
         }
-    }
-
+    },
+    
+    me : async (req, res) => {
+        const user = req.user;
+        if(!user) return res.status(400).json('need authentication') 
+        return res.status(200).json(req.user)
+    },
 }
 
 
