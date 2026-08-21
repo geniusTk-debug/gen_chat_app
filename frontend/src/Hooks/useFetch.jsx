@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useAuthContext } from "./useAuthContext";
 
 export default function useFetch(url) {
-
+    
+    const { isAuthenticated } = useAuthContext();
     const [ chatHistory, setChatHistory ] = useState([]);
         const [backValue, setBackValue] = useState('');
             const [frontValue, setFrontValue] = useState('');
@@ -67,9 +69,9 @@ export default function useFetch(url) {
         }
         }
 
-    fetcher();
+        if(isAuthenticated) fetcher();
     
-    },[url])
+    },[])
 
     return { 
         //to <ChatHistory/>

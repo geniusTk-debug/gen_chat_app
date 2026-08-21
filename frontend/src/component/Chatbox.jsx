@@ -21,9 +21,8 @@ export default function Chatbox({ frontValue, backValue, loading }) {
 
 return (
 
-    <div className="main-container">
-      {frontValue && 
-      (<section className="chat-box" 
+    <>
+      <section className="chat-box" 
                   key={new Date().getTime()} >
 
         <ul className='user font-style-user'>
@@ -42,8 +41,8 @@ return (
             { (`${hours}:${minutes}:${seconds}`).toLocaleString() }</li>
         </ul>
 
-      </section>)}
+      </section>
         
-    </div>
+    </>
   )
 };

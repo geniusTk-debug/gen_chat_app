@@ -21,7 +21,7 @@ app.use(cors(
 ))
 configDotenv();
 app.use(express.json());
-app.use('/api/user',authMiddleware, authRoute);
+app.use('/api/user', authRoute);
 app.use(authMiddleware,router);
 app.use(morgan('dev'));
 

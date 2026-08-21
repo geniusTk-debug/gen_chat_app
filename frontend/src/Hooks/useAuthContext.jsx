@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { createContext } from "react";
 import { useContext } from "react"
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState('');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export const AuthContextProvider = ({ children }) => {
             credentials : 'include'
         })
         const user = await savedUserData.json();
-        console.log(user)
+        console.log('user in context',user)
             setUserData(user);
         setLoading(false)
 
@@ -33,7 +33,7 @@ export const AuthContextProvider = ({ children }) => {
     }
 
     const logout = () => {
-        setUserData(null);
+        setUserData('');
     }
 
     const contextValue = {

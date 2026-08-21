@@ -11,5 +11,8 @@ authRoute.post('/register', controller.register )
 //login
 authRoute.post('/login', controller.login);
 
+//logout
+authRoute.post('/logout', controller.logout)
+
 //me
 authRoute.get('/me',authMiddleware, controller.me)

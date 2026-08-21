@@ -1,0 +1,35 @@
+.container {
+    min-width: 1090px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.user-state{
+    flex: 1 1 100%;
+    padding: 0 0.5rem;
+    display: flex;
+    align-self: right;
+    border: 5px solid turquoise;
+}
+
+@media (min-width: 600px) {
+    .user-state {
+        flex: 1 1 100%;
+    }
+}
+
+@media (min-width: 900px) {
+    .user-state {
+        flex: 1 100%;
+    }
+}
+
+.user-state::before {
+    content: 'Sign In';
+    display: block;
+    color: yellowgreen;
+    background: lightgray;
+    backdrop-filter: blur(15px);
+
+}

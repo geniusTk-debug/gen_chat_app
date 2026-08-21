@@ -9,10 +9,11 @@ const controller = {
 
     chatHistory : async (req,res) => {
                     if (!req.body) {
-                const d = await Chat.find().sort({createdAt : -1})
-            return res.status(200).json(d);
+                const ch = await Chat.find().sort({createdAt : -1})
+                console.log(ch, 'ch in api')
+            return res.status(200).json(ch);
                     }else {
-                        return res.status(500).json({ msg : 'Chat History Unavailiable' })
+                        return res.status(400).json({ msg : 'Chat History Unavailiable' })
                     }
                     
     
@@ -75,11 +76,27 @@ const controller = {
             return res.status(400).json(error.message);
         }
     },
+
+    logout : async (req, res) => {
+        try {
+            res.clearCookie('jwt')
+        return res.status(200).json('logout successfully')
+        } catch (error) {
+            console.log(error)
+            return res.status(400).json(error.message)
+        }
+    },
     
     me : async (req, res) => {
-        const user = req.user;
-        if(!user) return res.status(400).json('need authentication') 
-        return res.status(200).json(req.user)
+        try {
+            const user = {
+            username : req.user[0].username,
+            email : req.user[0].email
+        }
+        return res.status(200).json(user)
+        } catch (error) {
+            return res.status(400).json(error)
+        }
     },
 }
 

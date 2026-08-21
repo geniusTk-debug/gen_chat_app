@@ -16,11 +16,11 @@ export default function Route() {
 
                     {
                         index : true,
-                        element : [
+                        element : (
                             <ProtectedPages>
                                 <Home />
                             </ProtectedPages>
-                        ]
+                        )
 
                     },
 
@@ -32,6 +32,7 @@ export default function Route() {
                     {
                         path : 'user/login',
                         element : <Login />
+                                
                     },
 
                 ]

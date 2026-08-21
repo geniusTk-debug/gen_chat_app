@@ -7,7 +7,7 @@ export default function useAuth () {
     const Navigate = useNavigate();
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const { login } = useAuthContext();
+    const { login, logout } = useAuthContext();
 
 
     const registerHandler = async (e) => {
@@ -56,8 +56,8 @@ export default function useAuth () {
 const loginHandler = async (e) => {
     e.preventDefault();
     setError(null);
-    try {
-        setLoading(true);
+    setLoading(true);
+
         const target = e.target.elements;
     const body = {
         email : target.email.value,
@@ -79,27 +79,38 @@ const loginHandler = async (e) => {
     });
 
     const data = await res.json();
-    if(res.status === 200 || res.ok) {
+    if(res.ok) {
         setLoading(false);
         login(data)
-        // localStorage.setItem('user', JSON.stringify(data?.user_genchat?.[0]));
         await Navigate('/')
     } else {
-        setLoading(false);
-        
-        setError(await res.json());
-    }
-
-    } catch (error) {
-        console.log('inside catch',error);
-        setError(error.message)
+        setError(data)
         setLoading(false)
     }
+
 };
 
     const logoutHandler = async (e) => {
         e.preventDefault()
-        console.log('logout hit')
+        setError(null)
+        setLoading(true)
+        try {
+            const res = await fetch('http://localhost:3000/api/user/logout', {
+                method : 'POST',
+                credentials : 'include',
+            })
+            if(res.ok) {
+                const data = await res.json();
+                logout();
+                setLoading(false);
+                console.log(data)
+                Navigate('/user/login')
+            }
+
+        } catch (error) {
+            console.log(error)
+            setLoading(false)
+        }
     };
     
 
