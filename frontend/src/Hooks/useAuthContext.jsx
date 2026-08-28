@@ -6,40 +6,43 @@ import { useContext } from "react"
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-    const [userData, setUserData] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const persistHandler = async () => {
-            try {
-                const savedUserData = await fetch('http://localhost:3000/api/user/me', {
+        const authChecker = async () => {
+            setLoading(true)
+
+                const res = await fetch('http://localhost:3000/api/user/me', {
             credentials : 'include'
         })
-        const user = await savedUserData.json();
-        console.log('user in context',user)
-            setUserData(user);
-        setLoading(false)
+        if(res.ok) {
+            const user = await res.json();
+            setUser(user);
+            setLoading(false)
 
-            } catch (error) {
-                console.log(error?.message)
-            }
+        } else {
+            setUser(null);
+            setLoading(false)
         }
-        persistHandler();
+
+        }
+            authChecker();
     },[])
 
     const login = (user) => {
-        setUserData(user)
+        setUser(user)
         
     }
 
     const logout = () => {
-        setUserData('');
+        setUser(null);
     }
 
     const contextValue = {
-        userData,
+        user,
         loading,
-        isAuthenticated : !!userData,
+        isAuthenticated : !!user,
         login,
         logout
 

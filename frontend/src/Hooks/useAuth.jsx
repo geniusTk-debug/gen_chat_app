@@ -8,6 +8,7 @@ export default function useAuth () {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const { login, logout } = useAuthContext();
+    
 
 
     const registerHandler = async (e) => {
@@ -19,9 +20,6 @@ export default function useAuth () {
             if(target.password.value !== target.confirm_password.value) {
                 throw new Error('password must be same');
             }
-            // const username = target.username.value
-            // const email = target.email.value
-            // const password = target.password.value
 
         const body = {
             username : target.username.value,
@@ -39,6 +37,7 @@ export default function useAuth () {
         });
         const data = await res.json();
         if(res.ok) {
+            Navigate('/user/login')
             console.log(data);
             setLoading(false);
         }else {
@@ -82,7 +81,7 @@ const loginHandler = async (e) => {
     if(res.ok) {
         setLoading(false);
         login(data)
-        await Navigate('/')
+        await Navigate('/user/main-room')
     } else {
         setError(data)
         setLoading(false)
@@ -112,7 +111,6 @@ const loginHandler = async (e) => {
             setLoading(false)
         }
     };
-    
 
     return (
         {

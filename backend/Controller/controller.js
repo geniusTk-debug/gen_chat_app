@@ -88,10 +88,13 @@ const controller = {
     },
     
     me : async (req, res) => {
+        console.log(req.user)
         try {
             const user = {
-            username : req.user[0].username,
+            user : {
+                username : req.user[0].username,
             email : req.user[0].email
+            }
         }
         return res.status(200).json(user)
         } catch (error) {

@@ -11,10 +11,15 @@ const requestHandler = (e) => {
 };
 
   return (
-    <div className='main-container'>
-        <form onSubmit={requestHandler} >
+        <form className="message-form" onSubmit={requestHandler} >
           
-            <input autoComplete='off' value={value} type='text' name='client_input' onChange={(e)=>setValue(e.target.value)} />
+            <textarea
+              autoComplete='off'
+              value={value}
+              name='client_input'
+              rows='2'
+              onChange={(e)=>setValue(e.target.value)}
+            />
             {!loading
             ?
               (<button className='send-btn' type='submit' >Send</button>)
@@ -22,6 +27,5 @@ const requestHandler = (e) => {
               (<div className="spinner-border"role="status"></div>)}
 
         </form>
-    </div>
   )
 };

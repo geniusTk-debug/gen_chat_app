@@ -1,117 +1,250 @@
-.login-component {
-    width: min(1220px, 100vw);
-    box-sizing: content-box;
+.container{
+    min-width: 100svw;
     min-height: 100svh;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('/authbg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.container .form-container{
+    min-width: fit-content;
+    min-height: 70svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background:transparent;
+    
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 1px 2px 1px 2px lightgray inset;
+    backdrop-filter: blur(8px);
+}
+
+.form-container .title-container{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgb(28, 26, 26);
-}
-
-.login-component .justify-between{
-    width: min(400px, 90%);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.login-component .justify-between .heading {
-    cursor: pointer;
-    min-height: 40px;
-    text-shadow: 1px 2px 2px red;
-    mask-image: linear-gradient(to both, gray, transparent 90%);
-    text-decoration: none;
-}
-
-.login-component .justify-between .heading_ {
-    min-height: 40px;
-    text-shadow: 1px 2px 2px red;
-    mask-image: linear-gradient(to both, gray, transparent 90%);
-    text-decoration: none;
-}
-
-.login-component .justify-between .heading_::before{
-    content: "Register";
-    display: block;
-    color: rgb(123, 255, 246);
-    font-size: 1.5rem;
-    font-weight: 800;
-}
-
-.login-component .heading::after{
-    content: "Login";
-    display: block;
-    color : rgb(123, 255, 246);
-    font-size: 1.50rem;
-    font-weight: 800;
-}
-
-.login-component .justify-between .active {
-    text-decoration: underline;
-    text-decoration-color: rgb(123, 255, 246);
-    text-decoration-thickness: 75%;
-    text-decoration-skip-ink: all;
-}
-
-.login-component .login-form {
-    width: min(520px, 100%);
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 15px;
-    border: 1px solid rgb(123, 255, 246);
-    border-radius: 10px;
-    background: black;
-    box-shadow: 0 18px 50px #2E4030;
-    backdrop-filter: blur(15px);
-    margin-top: 5px;
-}
-
-.login-component .login-form .flex {
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-}
-
-.login-component .login-form .flex span{
-    display: flex;
-    color: red;
-    font-size: 13px;
-}
-.login-component .login-form .flex .spinner-border{
-    color: #00fa1d;
-    display: flex;
-    margin: 15px 0px 5px 0px;
-    width: 30px;
-    height: 30px;
-}
-
-.login-component .login-form .form {
-    color : white;
+    color: white;
     font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    gap: 10px;
 }
 
-.login-component .login-form form {
+
+.form-container .title-container::before{
+    content: 'Gen Chat';
+    font-weight: 700;
+    font-size: 25px;
+    font-style: italic;
+    color: whitesmoke;
+    text-shadow: 1px 2px 2px #4E3F34;
+
+}
+
+.form-container form{
+    
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    gap: 10px;
+    background: transparent;
+    border-bottom: 2px solid gray;
+    padding-block: 25px;
+    color: gray;
 }
 
-.login-component .login-form form input {
+/* //register */
+.form-container .register-form{
+    gap: 15;
+}
+
+.form-container form input{
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding-block: 5px;
+    padding-inline: 20px;
+    color: black;
+    font-weight: 600;
+    font-size: 16px;
+    font-style: italic;
+
+}
+
+.form-container form .forget::before{
+    content: 'forget password?';
     display: flex;
-    margin: 10px auto;
-    min-width: 300px;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 300;
+    color: gray;
+    
+} 
+
+form button .arrow-svg{
+   
+    display: none;
+
 }
 
-.login-component .login-form .login-btn{
-    width: max(80px, 20%);
-    display:block;
+form button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    line-height: 24px;
+    background: transparent;
+    color: white;
+    font-size: 15px;
+    font-weight: 400;
+    border: 1px solid gray;
+    padding: 5px;
+    border-radius: 10px;
+    backdrop-filter: blur(15px);
+    transition: all .4s ease-out;
+    
+}
+
+.form-container form button:hover{
     cursor: pointer;
-    margin: 50px 0 5px 0;
+    background: #000;
+    padding-left: 10px;
+    white-space: nowrap;
+    border-radius: 0px;
+    .arrow-svg{
+        display: flex;
+    }
+}
+
+form span{
+    min-width: fit-content;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 400;
+    color: red;
+    text-align: center;
+}
+
+.form-container .extra{
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 10px;
+    gap: 5px;
+    position: relative;
+    
+}
+
+/* //register */
+.form-container .register-extra{
+    min-width: 95%;
+    gap: 10px;
+    
+}
+
+.form-container .extra .or::before{
+    content: 'OR';
+    max-width: min-content;
+    max-height: fit-content;
+    display:flex;
+    text-align: center;
+    justify-content: center;
+    background: black;
+    padding-inline: 20px;
+    color: wheat;
+    font-size: 15px;
+    font-weight: 800;
+    position: absolute;
+    top: -18px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    backdrop-filter: blur(25px);
+    border-radius: 100%;
+    
+}
+
+/* //register */
+.form-container .extra .register-or::before{
+    content: 'OR';
+    max-width: min-content;
+    max-height: fit-content;
+    display:flex;
+    text-align: center;
+    justify-content: center;
+    background: black;
+    padding-inline: 20px;
+    color: wheat;
+    font-size: 15px;
+    font-weight: 800;
+    position: absolute;
+    top: -15px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    backdrop-filter: blur(25px);
+    border-radius: 100%;
+}
+
+.form-container .extra .login-btn{
+    padding: 5px;
+    width: 100%;
+    background: white;
+    color: gray;
+    border: 1px solid gray;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+/* //register */
+.form-container .extra .extra-btn{
+    padding: 5px;
+    min-width: 95%;
+    background: white;
+    color: rgba(0, 0, 0, 0.667);
+    border: 1px solid gray;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.form-container .extra button img {
+    width: 60px;
+    display: flex;
+    align-self: end;
+    
+}
+
+.form-container .extra .bottom{
+    display: flex;
+    gap: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    color: white;
 }

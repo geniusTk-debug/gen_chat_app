@@ -1,6 +1,6 @@
 
 import './style/chatHistory.css'
-export default function Chatbox({ frontValue, backValue, loading }) {
+export default function Chatroom({ frontValue, backValue, loading }) {
 
   const time = new Date();
     const hours = time.getHours() < 10 
@@ -25,13 +25,13 @@ return (
       <section className="chat-box" 
                   key={new Date().getTime()} >
 
-        <ul className='user font-style-user'>
+        {!!frontValue && <ul className='user font-style-user'>
           <li> {frontValue} </li>
           <li className='font-style absolute-time'>
             { (`${hours}:${minutes}:${seconds}`).toLocaleString() }</li>
-        </ul>
+        </ul>}
 
-        <ul className='assistant font-style-assistant'>
+        {!!backValue && <ul className='assistant font-style-assistant'>
           {loading
           ?
           (<li style={{color:'yellowgreen'}}>Thinking.....</li>)
@@ -39,7 +39,7 @@ return (
           (<li>{ backValue?.[0]?.message?.content } </li>)}
           <li className='font-style absolute-time'>
             { (`${hours}:${minutes}:${seconds}`).toLocaleString() }</li>
-        </ul>
+        </ul>}
 
       </section>
         

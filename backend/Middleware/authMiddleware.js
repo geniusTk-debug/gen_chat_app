@@ -6,7 +6,7 @@ export default function authMiddleware(req, res, next) {
     try {
         const token = req?.cookies?.jwt
         jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-        if(err) return res.status(401).json('Not authenticated')
+        if(err) return res.status(401).json('jwt missing or something went wrong')
             console.log(decoded)
         const user = await User.findById(decoded.id)
         req.user = user.user_genchat;

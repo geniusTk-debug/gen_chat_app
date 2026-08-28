@@ -10,10 +10,10 @@ export default function Chathistory({
     console.log(frontValue, backValue, '- value front/back in ChatHistory')
     console.log(chatHistory,'- in chathistory in ch component')
 return (
+    <>
+    <div className='chat-list'>
 
-    <div className='main-container'>
-
-        {chatHistory.length && (chatHistory.map((ch) => (
+        {!!chatHistory && chatHistory.map((ch) => (
 
             <section className="chat-history" key={ch._id} >
                 {frontValue && (<ChatBox 
@@ -34,9 +34,9 @@ return (
 
             </section>
 
-        )))};
+        ))}
 
     </div>
-
+    </>
     )
 };

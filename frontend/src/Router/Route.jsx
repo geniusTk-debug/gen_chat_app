@@ -1,17 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router"
-import App from '../App';
 import Home from "../component/Home";
+import Main from '../component/main'
 import Register from "../Pages/register";
 import Login from '../Pages/login';
 import { AuthContextProvider } from '../Hooks/useAuthContext'
 import ProtectedPages from "../middleware/protectedPages";
+import Chatbox from "../component/chatRoom";
 
 export default function Route() {
     const router = createBrowserRouter(
         [
             {
                 path : '/',
-                element : <App />,
+                element : <Main />,
                 children : [
 
                     {
@@ -22,6 +23,10 @@ export default function Route() {
                             </ProtectedPages>
                         )
 
+                    },
+                    {
+                        path : 'user/main-room',
+                        element : <Chatbox />
                     },
 
                     {

@@ -1,0 +1,152 @@
+.welcome-container {
+    background-image: url('/background.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 100%;
+    max-height: 100svh;
+    overflow-y: hidden;
+    text-shadow: 1px 2px 2px rgba(255, 255, 255, 0.614);
+    
+    box-sizing: border-box;
+}
+.welcome-container .navbar-container{    
+    backdrop-filter: blur(10px);
+    border-top: 3px solid blue;
+    border-bottom: 3px transparent;
+    border-spacing: 50cm;
+    border-style: groove;
+}
+
+
+
+
+.navbar-container nav{
+    max-width: 80%;
+    min-height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 10px;
+    backdrop-filter: blur(15px);
+}
+
+
+
+.welcome-container .navbar-container .left-section::before{
+    content: 'Gen Chat';
+    display: flex;
+    font-weight: 800;
+    font-size: 35px;
+    color: whitesmoke;
+}
+
+.welcome-container .navbar-container .right-section::after{
+    content: 'See info';
+    display: flex;
+    font-weight: 400;
+    font-size: 20px;
+    color: white;
+}
+
+.welcome-container .welcome-section{
+    max-width: 100svw;
+    height: 100svh;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+    margin: auto;
+    background-image: url('https://i.pinimg.com/originals/ad/a2/82/ada282162e0322ae27ff3f356dc411fe.jpg');
+    background-size: cover;
+    background-repeat: repeat;
+    
+    background-position-y: 108%;
+    text-shadow: none;
+    
+
+}
+
+.welcome-container .welcome-section .welcome {
+    min-width: 50%;
+    min-height: 50%;
+    border: 2px double white;
+    border-left-style: groove;
+    margin-top: 100px;
+    background: transparent;
+    border-radius: 20px;
+    box-shadow: 2px 0px 2px 1px blue;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+    align-items:center;
+    justify-content: center;
+    padding: 20px;
+
+}
+
+.welcome-container .welcome-section .welcome .btn-section{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+    
+}
+
+.welcome-section .welcome .btn-section button{
+    display: flex;
+    justify-content: center;
+    border: 2px solid transparent;
+    padding: 10px;
+    border-radius: 10px;
+    background: transparent;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0px 1px 0px 2px gray;
+    min-width: 80px;
+    min-height: 20px;
+    margin: 0px 10px;
+    transition: all .5s ease-in-out;
+
+}
+
+.welcome .btn-section button:hover{
+    background-color: blue;
+    min-width: 85px;
+
+}
+
+.welcome-container .welcome-section .w-text::before{
+    content: 'Welcome from Gen Chat';
+    display: flex;
+    align-content: center;
+    text-align: center;
+    font-weight: 900;
+    font-size: 25px;
+    color: whitesmoke;
+    margin-top: 15px;
+}
+
+.welcome-container .welcome-section .w-text::after{
+    content: 'A learning project, was build while learning';
+    display: flex;
+    font-weight: 300;
+    font-size: 15px;
+    color: gray;
+}
+
+.welcome-container .welcome-section .welcome .extra{
+    content: 'A learning project, it's was build while learning;
+    display: block;
+    color: red;
+    font-weight: 400;
+    font-size: 20px;
+    
+
+}
+

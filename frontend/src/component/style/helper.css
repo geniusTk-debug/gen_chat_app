@@ -1,31 +1,16 @@
-.main-container {
-  position: relative;
-  min-height: 100svh;
-  padding: 28px 16px 128px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: hidden;
-  background:
-    linear-gradient(145deg, rgba(8, 12, 20, 0.78), rgba(19, 31, 43, 0.58)),
-    url('https://i.pinimg.com/736x/81/3f/47/813f47cadba77038177b1d504336bfc1.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-}
+
 
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.04);
+  background: #2f343a;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
+  background: #6e7883;
 }
 
 @keyframes userEffect {
@@ -59,5 +44,11 @@
 
   50% {
     opacity: 1;
+  }
+}
+
+@media (max-width: 680px) {
+  .main-container {
+    padding: 12px 10px 138px;
   }
 }
