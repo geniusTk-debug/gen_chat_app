@@ -10,7 +10,8 @@ export const AuthContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const authChecker = async () => {
+        try {
+            const authChecker = async () => {
             setLoading(true)
 
                 const res = await fetch('http://localhost:3000/api/user/me', {
@@ -28,6 +29,9 @@ export const AuthContextProvider = ({ children }) => {
 
         }
             authChecker();
+        } catch (error) {
+            console.log(error)
+        }
     },[])
 
     const login = (user) => {

@@ -1,0 +1,81 @@
+.chat-room-container {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 20px 50px;
+    box-sizing: border-box;
+
+}
+
+.chat-room-container .client{
+    min-width: 0;
+    min-height: 0;
+    width: 70%;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-self: flex-end;
+    align-items: end;
+    border: 2px solid blue;
+    border-radius: 15px;
+    padding: 10px;
+    padding-bottom: 0px;
+    line-height: 28px;
+    background: #001D6C;
+    backdrop-filter: blur(15px);
+    overflow-wrap: break-word;
+    text-wrap: pretty;
+    color: white;
+    font-weight: 500;
+    font-size: 17;
+
+}
+
+.chat-room-container .client span{
+    display: block;
+    font-size: small;
+    color: lightgreen;
+
+}
+
+.chat-room-container .server {
+    min-width: 0;
+    min-height: 0;
+    width: 70%;
+    padding: 10px;
+    padding-inline-end: 30px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-self: flex-start;
+    align-items: start;
+    text-align: start;
+    color: white;
+    font-weight: 500;
+    font-size: 17;
+    line-height: 28px;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+    text-wrap: pretty;
+    border-top: 1px solid;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.chat-room-container .server span{
+    display: block;
+    font-size: small;
+    color: lightgreen;
+}
+
+.chat-room-container .thinking{
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(158, 212, 48);
+
+}

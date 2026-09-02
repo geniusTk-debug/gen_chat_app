@@ -1,5 +1,5 @@
 
-import './style/chatHistory.css'
+import './style/chatRoom.css';
 export default function Chatroom({ frontValue, backValue, loading }) {
 
   const time = new Date();
@@ -17,32 +17,33 @@ export default function Chatroom({ frontValue, backValue, loading }) {
 
   console.log(`${hours}:${minutes}:${seconds}`)
 
-    console.log(frontValue, backValue)
+    console.log(frontValue, backValue?.[0]?.message.content)
 
 return (
+      <div className='chat-room-container'>
+        {frontValue && (
+          <>
+          <div className="client">
+            {frontValue}
+          </div>
+            <span> time here </span>
 
-    <>
-      <section className="chat-box" 
-                  key={new Date().getTime()} >
-
-        {!!frontValue && <ul className='user font-style-user'>
-          <li> {frontValue} </li>
-          <li className='font-style absolute-time'>
-            { (`${hours}:${minutes}:${seconds}`).toLocaleString() }</li>
-        </ul>}
-
-        {!!backValue && <ul className='assistant font-style-assistant'>
-          {loading
-          ?
-          (<li style={{color:'yellowgreen'}}>Thinking.....</li>)
-          :
-          (<li>{ backValue?.[0]?.message?.content } </li>)}
-          <li className='font-style absolute-time'>
-            { (`${hours}:${minutes}:${seconds}`).toLocaleString() }</li>
-        </ul>}
-
-      </section>
+        {!loading
+        ?
+        (
+        <>
+        <div className="server">
+            {backValue && backValue?.[0]?.message.content}
+        </div>
+          <span> time here </span>
+        </>
+        )
+        :
+        ( <div className='thinking'> Thinking..... </div> )
+        }
+        </>
+        )}
         
-    </>
+      </div>
   )
 };

@@ -133,7 +133,7 @@
 }
 
 .welcome-container .welcome-section .w-text::after{
-    content: 'A learning project, was build while learning';
+    content: 'A learning project, build while learning';
     display: flex;
     font-weight: 300;
     font-size: 15px;

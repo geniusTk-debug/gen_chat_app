@@ -1,4 +1,5 @@
 import Chatroom from "../component/chatRoom";
+import '../component/style/layout.css'
 import Transpoter from "../component/Transporter";
 import Userstate from "../component/Userstate";
 import { useAuthContext } from "../Hooks/useAuthContext";
@@ -11,18 +12,22 @@ export default function Layout() {
     const genChat = useFetch(url);
 
   return (
-    <div className="main-container">
+    <div className='layout-container' >
         <Userstate
         user={user} />
-        <Chatroom
-        backValue={genChat.backValue}
-        frontValue={genChat.frontValue}
-        loading={genChat.loading}
-        />
-        <Transpoter 
-        requestor={genChat.requestor}
-        loading={genChat.loading}
-        />
+        
+      <main className="chat-container">
+
+          <Chatroom
+          backValue={genChat.backValue}
+          frontValue={genChat.frontValue}
+          loading={genChat.loading}
+          />
+          <Transpoter
+          requestor={genChat.requestor}
+          loading={genChat.loading}
+          />
+        </main>
     </div>
   )
 }

@@ -11,21 +11,21 @@ const requestHandler = (e) => {
 };
 
   return (
-        <form className="message-form" onSubmit={requestHandler} >
+        <div className="transporter-container">
+          <form onSubmit={requestHandler} >
           
-            <textarea
-              autoComplete='off'
-              value={value}
-              name='client_input'
-              rows='2'
-              onChange={(e)=>setValue(e.target.value)}
-            />
-            {!loading
-            ?
-              (<button className='send-btn' type='submit' >Send</button>)
-            :
-              (<div className="spinner-border"role="status"></div>)}
-
-        </form>
+              <input
+                autoComplete='off'
+                value={value}
+                name='client_input'
+                onChange={(e)=>setValue(e.target.value)}
+              />
+              {!loading
+              ?
+                (<button className='send-btn' type='submit' >Send</button>)
+              :
+                (<div className="spinner-border"role="status"></div>)}
+          </form>
+        </div>
   )
 };

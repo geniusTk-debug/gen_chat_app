@@ -1,95 +1,66 @@
-.message-form {
-  position: fixed;
-  left: 50%;
-  bottom: 18px;
-  z-index: 10;
-  width: min(920px, calc(100% - 32px));
-  transform: translateX(-50%);
+.chat-container .transporter-container{
+  flex-shrink: 0;
+  min-width: 0;
+  min-height: 0;
+  width: 90%;
+  border: 2px solid;
+  border-style: groove;
+  border-radius: 15px;
+  margin: auto;
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
-  align-items: end;
-  padding: 12px;
+  grid-template-columns: 1fr;
+  background: #001D6C;
+  box-shadow: 0px 1px 0px 1px lightgray;
   box-sizing: border-box;
-  border: 1px solid #4d5660;
-  border-radius: 8px;
-  background: #30363d;
-  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
 }
 
-.message-form textarea {
-  width: 100%;
-  min-height: 48px;
-  max-height: 140px;
-  padding: 12px 14px;
-  box-sizing: border-box;
-  color: #eef2f5;
-  border: 1px solid #59636e;
-  border-radius: 8px;
-  outline: none;
-  background: #252a30;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 1.45;
-  resize: vertical;
-  text-shadow: none;
-  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
-}
-
-.message-form textarea:focus {
-  border-color: #8795a2;
-  background: #20252a;
-  box-shadow: 0 0 0 3px rgba(135, 149, 162, 0.18);
-}
-
-.message-form button {
-  min-height: 48px;
-  padding: 0 18px;
-  color: #ffffff;
-  border: 0;
-  border-radius: 8px;
-  background: #5c6f82;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
-  font-size: 0.96rem;
-  font-style: normal;
-  font-weight: 800;
-  text-shadow: none;
-  cursor: pointer;
-  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-}
-
-.message-form .spinner-border {
-  min-width: 20px;
-  min-height: 20px;
-  display: flex;
-  align-self: center;
-  color: #d8dee4;
+.transporter-container form{
+  min-width: 0;
+  min-height: 0;
+  padding: 15px;
+  border-radius: 15px;
   background: transparent;
-  cursor: wait;
+  backdrop-filter: blur(10px);
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.transporter-container input{
+  flex-shrink: 0;
+  min-width: 0;
+  min-height: 0;
+  width: 90%;
+  line-height: 28px;
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+  font-style: italic;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+  background: rgba(87, 63, 63, 0.505);
+  border: 2px solid green;
+  display: flex;
+  padding-inline: 10px;
+  padding-block: 5px;
+
 }
 
-.message-form button:hover {
-  background: #6d8194;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+.transporter-container form .send-btn{
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    border: 2px solid;
+    background: rgba(30, 21, 21, 0.514);
 }
 
-.message-form button:active {
-  transform: translateY(1px);
-}
-
-@media (max-width : 680px) {
-  .message-form {
-    width: calc(100% - 20px);
-    grid-template-columns: 1fr;
-    bottom: 10px;
-  }
+.transporter-container form .send-btn:hover{
+  background: green;
+  border-color: lightgreen;
   
-  .message-form p {
-    animation: loading 900ms ease-in-out infinite;
-  }
+}
 
-  .message-form button {
-    width: 100%;
-  }
+.transporter-container form .spinner-border{
+  border-color: green;
 }

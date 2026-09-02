@@ -6,17 +6,31 @@ export default function Home() {
   
   const { isAuthenticated } = useAuthContext()
         
+if(isAuthenticated) {
   return (
-    <>
-    {isAuthenticated
-    ?
-    (<Layout />)
-    :
-    (<Welcome />)}
-    </>    
-
-
+    <Layout />
   )
+} else if(!isAuthenticated) {
+  return(
+    <Welcome />
+  )
+} else {
+  return (
+    <Welcome />
+  )
+}
+
+  // return (
+  //   <>
+  //   {isAuthenticated
+  //   ?
+  //   (<Layout />)
+  //   :
+  //   (<Welcome />)}
+  //   </>    
+
+
+  // )
 };
 
 

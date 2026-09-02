@@ -35,14 +35,15 @@ app.get('/cookies',(req,res)=>{
     return res.send('cookie set')
 });
 
-const dbStart = async () => {
+export const dbStart = async () => {
     const client =  await connectToMongodb();
     
         if(client){
             app.listen(PORT,() => {
             console.log('app is running on localhost : ', PORT)
         })
-        };
+        }
 };
 
 dbStart();
+

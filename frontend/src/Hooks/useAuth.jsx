@@ -81,7 +81,7 @@ const loginHandler = async (e) => {
     if(res.ok) {
         setLoading(false);
         login(data)
-        await Navigate('/user/main-room')
+        await Navigate('/')
     } else {
         setError(data)
         setLoading(false)

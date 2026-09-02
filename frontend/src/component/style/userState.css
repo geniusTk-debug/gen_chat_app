@@ -1,105 +1,50 @@
-.heading {
-  width: min(920px, 100%);
-  margin-bottom: 18px;
-  padding: 18px 20px;
+.layout-container .user-state{
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  padding-block: 20px;
+  align-items: center;
+  padding-inline: 30px;
+  gap: 20px;
+  border-bottom: 2px solid;
   box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 18px;
-  border: 1px solid #48515b;
-  border-radius: 8px;
-  background: #30363d;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+
+
 }
 
-.heading h1 {
-  margin: 0 0 4px;
-  color: #f3f6f8;
-  font-size: 1.28rem;
-  font-weight: 800;
+.user-state span{
+  min-width: fit-content;
+  color: white;
+  font-weight: 900;
+  font-size: 200;
+  font-style: italic;
+  text-shadow: 2px 1px 1px gray;
+  border-right: 2px solid;
+  border-style: groove;
+  border-radius: 5px;
+  padding-inline: 10px;
+  padding-block: 5px;
 }
 
-.heading p {
-  margin: 0;
-  color: #aeb8c2;
-  font-size: 0.92rem;
-}
-
-.user-state {
-  color: #eef2f5;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 0 0 auto;
-}
-
-.user-state .user {
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border: 1px solid #4f5963;
-  border-radius: 8px;
-  background: #252a30;
-}
-
-.user-state svg {
-  width: 20px;
-  height: 20px;
-  flex: 0 0 auto;
-  fill: #c7d0d8;
-}
-
-.user-state .auth-btn {
-  max-width: 140px;
-  overflow: hidden;
-  color: #eef2f5;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 
 .user-state button {
-  min-height: 36px;
-  padding: 0 12px;
-  color: #eef2f5;
-  border: 1px solid #5d6873;
-  border-radius: 8px;
-  background: #46515c;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease;
+  height: fit-content;
+  border: 2px solid black;
+  border-radius: 50px;
 }
 
-.user-state button:hover {
-  border-color: #7b8895;
-  background: #566370;
+.user-state ul{
+  display: contents;
 }
 
-@media (max-width: 680px) {
-  .heading {
-    padding: 14px;
-    align-items: flex-start;
-    flex-direction: column;
-    margin-bottom: 12px;
-  }
-
-  .heading h1 {
-    font-size: 1.08rem;
-  }
-
-  .heading p {
-    font-size: 0.8rem;
-  }
-
-  .user-state {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .user-state .auth-btn {
-    max-width: 48vw;
-  }
+.user-state ul li{
+    display: block;    
 }
+
+.user-state ul li button{
+  color: black;
+  font-weight: 400;
+    font-size: 15px;
+    padding-inline: 10px;
+}
+
