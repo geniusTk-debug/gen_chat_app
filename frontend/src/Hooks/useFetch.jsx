@@ -8,8 +8,8 @@ export default function useFetch(url) {
         const [backValue, setBackValue] = useState('');
             const [frontValue, setFrontValue] = useState('');
                 const [loading, setLoading] = useState(false);
-                    
-
+                const [newChat, setNewChat] = useState(false);                
+            const [isHistory, setIsHistory] = useState(false);
     const requestor = async (e)=> {
 
             setLoading(true);
@@ -84,6 +84,12 @@ export default function useFetch(url) {
         //to <Transporter />
         requestor,
         loading ,
+
+        //to <Content />
+        newChat,
+        setNewChat,
+        isHistory,
+        setIsHistory
 
     }
 };

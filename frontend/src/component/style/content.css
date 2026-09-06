@@ -1,0 +1,50 @@
+.layout-container .side-bar-container .content-container{
+    display: block;
+    flex: 1;
+    border-top: 3px solid;
+    padding-top: 10px;
+    box-sizing: border-box;
+
+}
+
+.content-container ul{ 
+    list-style: none;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+ul li {
+   display: contents;
+}
+
+.content-container ul li .plus-btn{
+    max-width: 30%;
+    min-height: 24px;
+    background:  white;
+}
+
+.content-container ul li button{
+    width: 80%;
+    margin: auto;
+    color: white;
+    background: #000;
+    font-weight: 400;
+    font-size: medium;
+    border: 2px solid;
+    box-shadow: 1px 0px 1px 0px inset;
+    border-style: groove;
+    transition: all .3s ease-out;
+}
+
+.content-container ul li button:hover{
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: outset;
+  border-color: #2fbee7;
+  background: linear-gradient(to right, #082134, #2FBEE7, #082134 );
+}

@@ -1,23 +1,15 @@
 
 import './style/chatRoom.css';
-export default function Chatroom({ frontValue, backValue, loading }) {
+export default function Chatroom({ frontValue, backValue, loading}) {
 
   const time = new Date();
-    const hours = time.getHours() < 10 
-                    ? ('0'+time.getHours())
-                      : (time.getHours())
-
-      const minutes = time.getMinutes() < 10 
-                        ? ('0'+time.getMinutes()) 
-                          : (time.getMinutes())
-
-        const seconds = time.getSeconds() < 10 
-                          ? ('0'+time.getSeconds()) 
-                            : (time.getSeconds())
-
-  console.log(`${hours}:${minutes}:${seconds}`)
-
-    console.log(frontValue, backValue?.[0]?.message.content)
+  const dateTime = time.toLocaleTimeString([], {
+    hour : '2-digit',
+    minute : '2-digit',
+    
+  })
+  
+  console.log(dateTime)
 
 return (
       <div className='chat-room-container'>
@@ -25,8 +17,8 @@ return (
           <>
           <div className="client">
             {frontValue}
+            <span className='client-time'> {dateTime} </span>
           </div>
-            <span> time here </span>
 
         {!loading
         ?
@@ -34,8 +26,8 @@ return (
         <>
         <div className="server">
             {backValue && backValue?.[0]?.message.content}
+          <span className='server-time'> {dateTime} </span>
         </div>
-          <span> time here </span>
         </>
         )
         :

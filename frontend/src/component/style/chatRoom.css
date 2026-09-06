@@ -8,40 +8,49 @@
     flex-direction: column;
     gap: 30px;
     padding: 20px 50px;
+    margin-bottom: 40px;
     box-sizing: border-box;
+    border-bottom: 1px solid;
 
 }
 
 .chat-room-container .client{
-    min-width: 0;
-    min-height: 0;
-    width: 70%;
     display: flex;
-    gap: 10px;
+    min-width: 0;
+    height: min-content;
+    width: 70%;
     flex-direction: column;
+    justify-content: space-between;
     align-self: flex-end;
     align-items: end;
+    text-align: center;
+    gap: 15px;
     border: 2px solid blue;
     border-radius: 15px;
-    padding: 10px;
-    padding-bottom: 0px;
-    line-height: 28px;
+    padding: 5px 15px 20px;
+    line-height: 30px;
     background: #001D6C;
     backdrop-filter: blur(15px);
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     text-wrap: pretty;
     color: white;
     font-weight: 500;
     font-size: 17;
+    position: relative;
 
 }
 
-.chat-room-container .client span{
-    display: block;
+.chat-room-container .client-time{
+    display: flex;
     font-size: small;
-    color: lightgreen;
-
+    font-weight: 500;
+    color: greenyellow;
+    padding-bottom: 1px;
+    position: absolute;
+    bottom: -10px;
+    right: 15px;
 }
+
 
 .chat-room-container .server {
     min-width: 0;
@@ -50,7 +59,7 @@
     padding: 10px;
     padding-inline-end: 30px;
     display: flex;
-    gap: 10px;
+    gap: 15px;
     flex-direction: column;
     align-self: flex-start;
     align-items: start;
@@ -65,12 +74,18 @@
     border-top: 1px solid;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
+    position: relative;
 }
 
-.chat-room-container .server span{
-    display: block;
+.chat-room-container .server-time{
+    display: flex;
     font-size: small;
-    color: lightgreen;
+    font-weight: 500;
+    color: greenyellow;
+    margin: px;
+    position: absolute;
+    left: 15px;
+    top: -5px;
 }
 
 .chat-room-container .thinking{

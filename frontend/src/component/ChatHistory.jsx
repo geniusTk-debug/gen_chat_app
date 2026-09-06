@@ -1,6 +1,5 @@
 
 import './style/chatHistory.css';
-import ChatBox from './Chatbox';
 
 
 export default function Chathistory({ 
@@ -16,11 +15,6 @@ return (
         {!!chatHistory && chatHistory.map((ch) => (
 
             <section className="chat-history" key={ch._id} >
-                {frontValue && (<ChatBox 
-                frontValue={frontValue}
-                backValue={backValue}
-                
-                />)}
                 <ul className='user font-style-user'>
                     <li>{ch.message?.[1]?.content} </li>
                     <li className='font-style absolute-time'>
