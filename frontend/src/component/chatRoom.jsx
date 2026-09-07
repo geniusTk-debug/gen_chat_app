@@ -1,6 +1,12 @@
 
 import './style/chatRoom.css';
-export default function Chatroom({ frontValue, backValue, loading}) {
+export default function Chatroom({ 
+  frontValue,
+    backValue,
+      loading,
+        
+      
+}) {
 
   const time = new Date();
   const dateTime = time.toLocaleTimeString([], {
@@ -11,7 +17,8 @@ export default function Chatroom({ frontValue, backValue, loading}) {
   
   console.log(dateTime)
 
-return (
+
+    return(
       <div className='chat-room-container'>
         {frontValue && (
           <>
@@ -37,5 +44,8 @@ return (
         )}
         
       </div>
-  )
+    )
+
 };
+
+

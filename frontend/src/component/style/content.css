@@ -41,6 +41,10 @@ ul li {
     transition: all .3s ease-out;
 }
 
+.content-container ul li button.active{
+    background: #2FBEE7;
+}
+
 .content-container ul li button:hover{
     width: 100%;
     border-radius: 5px;

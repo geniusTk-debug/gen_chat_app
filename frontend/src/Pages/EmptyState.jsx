@@ -1,13 +1,5 @@
 import './style/emptyState.css'
-import Chathistory from '../component/Chathistory'
-export default function EmptyState({ chatHistory, isHistory }) {
- if(isHistory) {
-  return(
-    <Chathistory 
-    chatHistory={chatHistory}
-    />
-  )
- }
+export default function EmptyState() {
 
   return (
     <div className='empty-state-container'>

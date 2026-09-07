@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import './style/transporter.css'
 
-export default function Transpoter({ requestor, loading }) {
+export default function Transpoter({ 
+  requestor,
+    loading,
+}) {
 const [ value, setValue ] = useState('');
 
 const requestHandler = (e) => {
@@ -9,7 +12,6 @@ const requestHandler = (e) => {
   requestor(e);
   setValue('')
 };
-
   return (
         <div className="transporter-container">
           <form onSubmit={requestHandler} >

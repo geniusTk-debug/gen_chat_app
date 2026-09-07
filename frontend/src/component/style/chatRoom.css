@@ -14,6 +14,16 @@
 
 }
 
+.chat-room-container::-webkit-scrollbar{
+    width: 0;
+}
+
+.chat-room-container .chat-room {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
 .chat-room-container .client{
     display: flex;
     min-width: 0;
@@ -23,7 +33,7 @@
     justify-content: space-between;
     align-self: flex-end;
     align-items: end;
-    text-align: center;
+    text-align: start;
     gap: 15px;
     border: 2px solid blue;
     border-radius: 15px;
@@ -55,9 +65,8 @@
 .chat-room-container .server {
     min-width: 0;
     min-height: 0;
-    width: 70%;
-    padding: 10px;
-    padding-inline-end: 30px;
+    width: 100%;
+    padding: 20px 50px 5px 10px;
     display: flex;
     gap: 15px;
     flex-direction: column;
@@ -82,7 +91,6 @@
     font-size: small;
     font-weight: 500;
     color: greenyellow;
-    margin: px;
     position: absolute;
     left: 15px;
     top: -5px;

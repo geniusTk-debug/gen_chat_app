@@ -1,12 +1,12 @@
-import Chatroom from "../component/chatRoom";
 import '../component/style/layout.css'
-import Transpoter from "../component/Transporter";
 import Userstate from "../component/Userstate";
 import Content from "../component/Content";
+import EmptyState from "./EmptyState";
+import Chatroom from "../component/chatRoom";
+import Chathistory from "../component/Chathistory";
 import { useAuthContext } from "../Hooks/useAuthContext";
 import useFetch from "../Hooks/useFetch";
-import EmptyState from "./EmptyState";
-
+import Transpoter from "../component/Transporter";
 
 export default function Layout() {
     const url = 'http://localhost:3000/api/chat';
@@ -23,27 +23,31 @@ export default function Layout() {
 
           
           <Content
-          newChat={genChat.newChat}
-          setNewChat={genChat.setNewChat}
-          isHistory={genChat.isHistory}
-          setIsHistory={genChat.setIsHistory}
+          view={genChat.view}
+          setView={genChat.setView}
           />
             
         </div> 
         
       <main className="chat-container">
-
-          {genChat.newChat
-          ?
-          (<Chatroom
+          
+          {genChat.view === 'new' && 
+          <EmptyState
+            isTyping={genChat.isTyping}
+            />
+          }
+          
+          {genChat.view === 'now' && 
+          <Chatroom
           backValue={genChat.backValue}
           frontValue={genChat.frontValue}
           loading={genChat.loading}
-          />)
-          :
-          ( <EmptyState
-            isHistory={genChat.isHistory}
-            /> )
+          />
+          }
+          
+          {genChat.view === 'history' && 
+          <Chathistory 
+          chatHistory={genChat.chatHistory}/>
           }
 
           <Transpoter
