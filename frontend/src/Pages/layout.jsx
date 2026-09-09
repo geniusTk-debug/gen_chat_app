@@ -13,10 +13,11 @@ export default function Layout() {
     const { user } = useAuthContext();
     const genChat = useFetch(url);
     console.log(genChat.chatHistory)
+    console.log(genChat.extended, 'extended...')
   return (
     <div className='layout-container' >
 
-        <div className="side-bar-container">
+        <div className={` side-bar-container ${ genChat.extended ? "isExtend" : "notExtend" }` }>
 
           <Userstate
           user={user} />
@@ -25,35 +26,33 @@ export default function Layout() {
           <Content
           view={genChat.view}
           setView={genChat.setView}
+          title={genChat.title}
+          setTitle={genChat.setTitle}
+          isExtended={genChat.isEntended}
           />
             
         </div> 
         
       <main className="chat-container">
           
-          {genChat.view === 'new' && 
-          <EmptyState
-            isTyping={genChat.isTyping}
-            />
-          }
+          { genChat.view === 'new' && 
+          <EmptyState /> }
           
-          {genChat.view === 'now' && 
+          { genChat.view === genChat.title && 
           <Chatroom
           backValue={genChat.backValue}
           frontValue={genChat.frontValue}
           loading={genChat.loading}
-          />
-          }
+          chatHistory={genChat.chatHistory}
+          /> }
           
-          {genChat.view === 'history' && 
+          { genChat.view === 'idle' && 
           <Chathistory 
-          chatHistory={genChat.chatHistory}/>
-          }
+          chatHistory={genChat.chatHistory} /> }
 
           <Transpoter
           requestor={genChat.requestor}
-          loading={genChat.loading}
-          />
+          loading={genChat.loading} />
 
       </main>
 

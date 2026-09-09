@@ -8,8 +8,9 @@ import { timeLimit } from "../Helper/jwt.js";
 const controller = {
 
     chatHistory : async (req,res) => {
+        console.log(req.user, 'user tesssst')
                     if (!req.body) {
-                const ch = await Chat.find().sort({createdAt : -1})
+                const ch = await Chat.find().sort({updatedAt : -1})
                 console.log(ch, 'ch in api')
             return res.status(200).json(ch);
                     }else {
@@ -21,21 +22,21 @@ const controller = {
 //working//
     integrate :async (req,res)=>{
                     if(req.body) {
-                        const  message  = await req.body?.content;
+                        const { title, value }  = req.body;
     
-                    const clientReq = {
+                    const question = {
                         "model" : "openai/gpt-oss-20b",
                         "messages" : [
                             {
                                 "role" : "user",
-                                "content" : message
+                                "content" : value
                             },
                         ]
                     }
-                    console.log(clientReq)
-                        const aiReply = await askAI(clientReq);
-                    console.log(aiReply)
-                return res.status(200).json(aiReply );
+                    console.log(question)
+                        const answer = await askAI(question, title);
+                    console.log(answer)
+                return res.status(200).json(answer );
                         
                     }
                     else {

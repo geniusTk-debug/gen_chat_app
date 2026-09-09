@@ -13,7 +13,6 @@
 }
 
 .layout-container .side-bar-container{
-    flex: 0 0 160px;
     height: 100%;
     min-width: 0;
     padding: 0 10px;
@@ -25,6 +24,14 @@
     box-shadow: 1px 0 0 1px #2FBEE7;
     box-sizing: border-box;
     transition: flex-basis .5s ease-in;
+}
+
+.layout-container .side-bar-container.notExtend{
+    flex: 0 0 160px;
+}
+
+.layout-container .side-bar-container.isExtend{
+    flex: 0 0 200px;
 }
 
 .layout-container main.chat-container{

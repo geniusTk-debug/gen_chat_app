@@ -1,6 +1,7 @@
 import Chat from "../Model/schema.js";
 
-export async function askAI (reqFromClient) {
+export async function askAI (question, title) {
+    console.log(question.title, 'title for ask')
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 try {
@@ -10,30 +11,44 @@ try {
         'Content-Type' : 'application/json',
         'Authorization' : `Bearer ${GROQ_API_KEY}`
     },
-    body : JSON.stringify(reqFromClient)
+    body : JSON.stringify(question)
     });
 
         const data = await res.json();
         if(res.status === 200) {
-        console.log(data, "in service.js")
-        const ai_role = data?.choices?.[0]?.message?.role;
-        const ai_content = data?.choices?.[0]?.message?.content;
-        const client_role = reqFromClient.messages[0].role;
-        const client_content = reqFromClient.messages[0].content;
 
-        const Chat_History = await Chat.create({
-            "message" : [
-                {
-                    "role" : ai_role,
-                    "content" : ai_content
-                },
-                {
-                    "role" : client_role,
-                    "content" : client_content
-                }
-            ]
-        });
-        console.log('Stored success in Mongo DB : ', Chat_History);   
+        const ai_role = data?.choices?.[0]?.message?.role;
+            const ai_content = data?.choices?.[0]?.message?.content;
+                const client_role = question.messages[0].role;
+                const client_content = question.messages[0].content;
+            console.log(title)
+
+        const createAndUpdate = await Chat.findOneAndUpdate(
+            { 
+                title
+            },
+            {
+                $push : { messages : {
+                    $each : [
+                        {
+                            role : client_role,
+                            content : client_content,
+                            createdAt : new Date()
+                        },
+                        {
+                            role : ai_role,
+                            content : ai_content,
+                            createdAt : new Date()
+                        }
+                    ]
+                }}
+            },
+            { upsert : true,
+                returnDocument : "after"
+            }
+        )
+        
+        console.log('Stored success in Mongo DB : ', createAndUpdate);   
 
         return data;
         } else{

@@ -3,22 +3,26 @@ import './style/chatRoom.css';
 export default function Chathistory({ 
     chatHistory
 }) {
-    console.log(chatHistory,'- in chathistory in ch component')
+
 return (
     
     <div className='chat-room-container'>
 
-        {!!chatHistory && chatHistory.map((ch) => (
+        {!!chatHistory && chatHistory?.[0]?.messages?.map((ch) => (
             <div className='chat-room' key={ch._id}>
-                <div className='client' >{ch.message?.[1]?.content} 
+                {ch.role === 'user'
+                ?
+                (<div className='client' key={ch._id} >{ch.content} 
                     <span className='client-time'>
-                        { new Date(ch.createdAt).toLocaleString() }</span>
-                </div>
-
-                <div className='server' >{ch.message?.[0]?.content} 
+                        {new Date(chatHistory[0].createdAt).toLocaleTimeString() }</span>
+                </div>)
+                :
+                (<div className='server' >{ch.content} 
                     <span className='server-time'>
-                        { new Date(ch.createdAt).toLocaleString() } </span>
-                </div>
+                        {new Date(chatHistory[0].createdAt).toLocaleTimeString() } </span>
+                </div>)}
+
+                
             </div>
         ))}
 
