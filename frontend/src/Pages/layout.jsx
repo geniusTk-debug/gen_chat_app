@@ -1,9 +1,7 @@
 import '../component/style/layout.css'
 import Userstate from "../component/Userstate";
 import Content from "../component/Content";
-import EmptyState from "./EmptyState";
 import Chatroom from "../component/chatRoom";
-import Chathistory from "../component/Chathistory";
 import { useAuthContext } from "../Hooks/useAuthContext";
 import useFetch from "../Hooks/useFetch";
 import Transpoter from "../component/Transporter";
@@ -13,7 +11,7 @@ export default function Layout() {
     const { user } = useAuthContext();
     const genChat = useFetch(url);
     console.log(genChat.chatHistory)
-    console.log(genChat.extended, 'extended...')
+    console.log(genChat.title, 'title in Layout')
   return (
     <div className='layout-container' >
 
@@ -28,27 +26,30 @@ export default function Layout() {
           setView={genChat.setView}
           title={genChat.title}
           setTitle={genChat.setTitle}
-          isExtended={genChat.isEntended}
+          extended={genChat.extended}
+          isExtended={genChat.isExtended}
+          chatId={genChat.chatId}
+          setChatId={genChat.setChatId}
+          chatHistory={genChat.chatHistory }
+          fetcherById={genChat.fetcherById}
+          setMessages={genChat.setMessages}
+          value={ genChat.value }
           />
             
         </div> 
         
       <main className="chat-container">
           
-          { genChat.view === 'new' && 
-          <EmptyState /> }
           
-          { genChat.view === genChat.title && 
           <Chatroom
-          backValue={genChat.backValue}
-          frontValue={genChat.frontValue}
+          messages={genChat.messages}
           loading={genChat.loading}
           chatHistory={genChat.chatHistory}
-          /> }
-          
-          { genChat.view === 'idle' && 
-          <Chathistory 
-          chatHistory={genChat.chatHistory} /> }
+          singleChat={genChat.singleChat}
+          view={genChat.view}
+          title={genChat.title}
+          chatId={genChat.chatId}
+          />
 
           <Transpoter
           requestor={genChat.requestor}

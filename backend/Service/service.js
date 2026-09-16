@@ -1,73 +1,66 @@
 import Chat from "../Model/schema.js";
 
-export async function askAI (question, title) {
-    console.log(question.title, 'title for ask')
+export async function askAI (req) {
+
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 try {
+    const content = req.question;
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
         method : 'POST',
         headers : {
         'Content-Type' : 'application/json',
         'Authorization' : `Bearer ${GROQ_API_KEY}`
     },
-    body : JSON.stringify(question)
+    body : JSON.stringify(content)
     });
 
-        const data = await res.json();
-        if(res.status === 200) {
+    if(!res.ok) {
+        const errorText = await res.text();
+        throw new Error(errorText || 'AI request failed');
+    }
 
-        const ai_role = data?.choices?.[0]?.message?.role;
-            const ai_content = data?.choices?.[0]?.message?.content;
-                const client_role = question.messages[0].role;
-                const client_content = question.messages[0].content;
-            console.log(title)
+    const reply = await res.json();
+    const title = req.title;
+    const userId = req.userId;
+    const chatId = req.chatId
 
-        const createAndUpdate = await Chat.findOneAndUpdate(
-            { 
-                title
-            },
+    const client_role = content.messages[0].role;
+    const client_content = content.messages[0].content;
+    const roleText = reply.choices[0]?.message?.role || 'assistant';
+    const contentText = reply.choices[0]?.message?.content || '';
+    const chatTitle = title || client_content.slice(0, 40);
+
+    let stored;
+    if(chatId) {
+        stored = await Chat.updated(
             {
-                $push : { messages : {
-                    $each : [
-                        {
-                            role : client_role,
-                            content : client_content,
-                            createdAt : new Date()
-                        },
-                        {
-                            role : ai_role,
-                            content : ai_content,
-                            createdAt : new Date()
-                        }
-                    ]
-                }}
-            },
-            { upsert : true,
-                returnDocument : "after"
+                chatId,
+                userId,
+                client_role,
+                client_content,
+                roleText,
+                contentText
             }
         )
-        
-        console.log('Stored success in Mongo DB : ', createAndUpdate);   
+    }
 
-        return data;
-        } else{
-            console.log('Failed to requested GROQ_API',data, res);
-        }
+    if(!stored) {
+        stored = await Chat.created(
+            {
+                userId,
+                title : chatTitle,
+                client_role,
+                client_content,
+                roleText,
+                contentText
+            }
+        )
+    }
+
+    return { reply, stored };
 } catch (error) {
-    console.log(error?.message);
-}
-
-};
-
-
-
-//check open ai models
-// const res = await fetch('https://api.groq.com/openai/v1/models', {
-    //     headers : {
-    //         'Authorization' : `Bearer ${GROQ_API_KEY}`
-    //     },
-        
-    // })
-    // const d = await res.json();
-    // console.log(d.data?.map(model => model.id))
+        console.log("inside catch",error?.message);
+        throw error;
+    } 
+}                

@@ -3,6 +3,7 @@
     flex: 1;
     border-top: 3px solid;
     padding-top: 10px;
+    margin-top: 10px;
     box-sizing: border-box;
 
 }
@@ -31,7 +32,7 @@ ul li {
     transition: all .4s ease-out;
     
 }
-.content-container form textarea{
+.content-container form input{
     color: white;
     font-weight: 500;
     font-style: oblique;
@@ -43,9 +44,7 @@ ul li {
     text-overflow: wrap;
     text-wrap: break-word;
     min-width: 0;
-    width: 100%;
-    min-height: 100px;
-    max-height: 100px;
+    min-width: 250px;
     border-radius: 5px;
     padding: 5px 10px;
    
@@ -89,15 +88,15 @@ form .flex-btn{
 }
 
 .content-container ul li button{
-    width: 80%;
+    width: 90%;
     margin: auto;
     color: white;
     background: #000;
-    font-weight: 400;
-    font-size: medium;
+    font-weight: 300;
+    font-size: small;
     border: 2px solid;
+    border-radius: 50px;
     box-shadow: 1px 0px 1px 0px inset;
-    border-style: groove;
     transition: all .3s ease-out;
 }
 

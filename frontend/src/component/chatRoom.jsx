@@ -1,66 +1,43 @@
 
 import './style/chatRoom.css';
+import Chat_H from './Chat_H';
+import EmptyState from '../Pages/EmptyState';
+import AssistantMessages from './AssistantMessages';
+import UserMessages from './UserMessages';
 export default function Chatroom({ 
-  frontValue,
-    backValue,
+      messages,
       loading,
-        chatHistory
-        
-      
+        // singleChat,
+          view,
+          title,
+          // value
 }) {
-
-  const time = new Date();
-  const dateTime = time.toLocaleTimeString([], {
-    hour : '2-digit',
-    minute : '2-digit',
-    
-  })
-  console.log(frontValue, backValue, 'front, back in chatroom')
-  console.log(dateTime)
-
+  console.log(messages, 'messages in Chatromm')
 
     return(
       <div className='chat-room-container'>
-        {frontValue && (
-          <>
-          <div className="client">
-            {frontValue}
-            <span className='client-time'> {dateTime} </span>
-          </div>
 
-        {!loading
-        ?
-        (
-        <>
-        <div className="server">
-            {backValue && backValue?.[0]?.message.content}
-          <span className='server-time'> {dateTime} </span>
-        </div>
-        </>
-        )
-        :
-        ( <div className='thinking'> Thinking..... </div> )
-        }
-        </>
-        )}
+        { !view && title &&
+        (<EmptyState />)}
         
-        {!!chatHistory && chatHistory?.[0]?.messages?.map((ch) => (
-            <div className='chat-room' key={ch._id}>
-                {ch.role === 'user'
-                ?
-                (<div className='client' key={ch._id} >{ch.content} 
-                    <span className='client-time'>
-                        {new Date(chatHistory[0].createdAt).toLocaleTimeString() }</span>
-                </div>)
-                :
-                (<div className='server' >{ch.content} 
-                    <span className='server-time'>
-                        {new Date(chatHistory[0].createdAt).toLocaleTimeString() } </span>
-                </div>)}
 
-                
-            </div>
+        {messages
+        && messages.map((message)=> (
+          message.role === 'assistant'
+          ?
+          ( <AssistantMessages key={message.id || message._id} message={message} /> )
+          :
+          ( <UserMessages key={message.id || message._id} message={message} /> )
         ))}
+
+        { loading 
+          && 
+          ( <div className="thinking">Thinking....</div> ) }        
+
+        {messages.title === view &&
+        (<Chat_H 
+        messages={messages} />)
+        }
         
       </div>
     )

@@ -67,7 +67,7 @@
   
 
 .user-state-container ul {
-  padding: 6px 0;
+  padding: 10px 0;
   width: 100%;
   list-style: none;
   display: flex;
@@ -80,7 +80,7 @@
 
 
 .user-state-container ul li button{
-  width: 80%;
+  width: 90%;
   height: auto;
   display: flex;
   gap: 10px;
@@ -93,15 +93,27 @@
 
 
   font-weight: 400;
-  font-size: medium;
+  font-size: small;
   border: 2px double;
     box-shadow: 1px 0px 1px 0px inset;
     border-style: groove;
+    border-radius: 50px;
   
   transition: all .3s ease-out;
 
 }
 
+.user-state-container ul li .color-red {
+  color: red;
+  font-weight: 500;
+  font-size: small;
+  box-shadow: none;
+}
+
+.user-state-container ul li .color-red:hover{
+  color: white;
+  box-shadow: none;
+}
 
 .user-state-container ul li button:hover{
   cursor: pointer;

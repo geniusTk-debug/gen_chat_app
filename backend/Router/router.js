@@ -5,7 +5,10 @@ const router = express.Router();
 
 
 //get all
-router.get('/api/chat', controller.chatHistory);
+router.get('/api/chat-history', controller.chatHistory);
+
+//get by id
+router.get('/api/chat/:id', controller.single)
 //store on **
 router.post('/api/chat',controller.integrate);
 

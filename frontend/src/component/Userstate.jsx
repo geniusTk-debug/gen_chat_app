@@ -43,7 +43,7 @@ export default function Userstate({ user }) {
                   {items.map((item, i) => (
                       <li key={i}>
                         <button
-                        className='clickable-btn'
+                        className={item === 'Logout' ? "color-red" : "clickable-btn"}
                         onClick={(e) => handleClick(item,e)}> {item} </button>
                       </li>
                   ))}
