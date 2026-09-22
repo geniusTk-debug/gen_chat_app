@@ -26,7 +26,6 @@ user.statics.register = async function User( username, email, password ) {
     const user = await this.findOne({"user_genchat.email": email})
 
     if(user) {
-        console.log(user)
         throw new Error("User already exist with this Email")
     }
 

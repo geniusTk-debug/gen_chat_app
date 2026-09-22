@@ -34,6 +34,10 @@ export default function Layout() {
           fetcherById={genChat.fetcherById}
           setMessages={genChat.setMessages}
           value={ genChat.value }
+          editor={genChat.editor}
+          editId={genChat.editId}
+          setEditId={genChat.setEditId}
+          docsDel={genChat.docsDel}
           />
             
         </div> 

@@ -22,13 +22,44 @@ const controller = {
     single : async (req, res) => {
         try {
             const id = req.params.id;
-        console.log(id, 'id in the single')
         const chById = await Chat.findById(id)
-        console.log(chById)
         return res.status(200).json(chById)
         } catch (error) {
             console.log(error)
             res.status(400).json(error?.message)
+        }
+    },
+
+    updateTitle : async (req, res) => {
+        try {
+            const updateT = await Chat.findByIdAndUpdate(req.params.id, {
+                title : req.body.title,
+                
+            }, { returnDocument : 'after' })
+            if(updateT) {
+                console.log(updateT, "title updated in db")
+                return res.status(200).json(updateT)
+            }
+        } catch (error) {
+            return res.status(400).json(error)
+            console.log(error)
+        }
+    },
+
+    remove : async (req, res) => {
+        console.log(req.params.id)
+        try {
+            const del = await Chat.findByIdAndDelete({ _id : req.params.id}, 
+                {
+                    returnDocument : 'after'
+                }
+            )
+            if(del) {
+                return res.status(200).json('Successfully deleted chat docs')
+            }
+        } catch (error) {
+            return res.status(400).json(error)
+            console.log(error)
         }
     },
 

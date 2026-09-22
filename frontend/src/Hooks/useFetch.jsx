@@ -13,7 +13,8 @@ export default function useFetch(url) {
     const [chatId, setChatId] = useState(
             ()=>localStorage.getItem('currentChatId')
         );
-    const [extended, isExtended] = useState(false);
+    const [extended, isExtended] = useState(null);
+        const [editId, setEditId] = useState(null);
         // const [singleChat, setSingleChat] = useState('');
 
 //time function
@@ -32,7 +33,7 @@ useEffect(() => {
 
         if(res.status === 200 || res.ok) {
             const data = await res.json();
-                setTitle(data.title)
+                setView(data.title)
                 setChatHistory(data);
         }
         else {
@@ -88,6 +89,7 @@ useEffect(() => {
             if(stored) {
                 setView(stored.title)
                 setChatId(stored._id)
+                setTitle('')
                 setChatHistory(prev => {
                     const filtered = prev.filter(chat => chat._id !== stored._id);
                     return [stored, ...filtered];
@@ -96,7 +98,7 @@ useEffect(() => {
             }
 
             setLoading(false);
-            window.scroll({ left : '0', top : document.body.scrollHeight, behavior : "smooth"})
+            window.scrollBy({ left : 0, top : 0, behavior : "smooth"})
 
         };
 
@@ -122,6 +124,47 @@ const fetcherById = async (id) => {
             localStorage.setItem('currentChatId', data?._id)
         }
 }
+
+const editor = async (id) => {
+
+    try {
+        const res = await fetch(`http://localhost:3000/api/user/chat/${id}`, {
+        method : 'PATCH',
+        credentials: 'include',
+        headers : {
+            'Content-Type' : 'application/json',
+        },
+        body : JSON.stringify({ title })
+    })
+    if(res.ok) {
+        isExtended(null)
+        setEditId(null)
+    }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const docsDel = async (_id) => {
+    try {
+        const del = await fetch(`http://localhost:3000/api/user/chat/${_id}`,{
+            method : 'DELETE',
+            credentials : 'include',
+        })
+        if(del.ok) {
+            setChatId(null)
+            localStorage.removeItem('currentChatId')
+            setView('')
+            setTitle('')
+            isExtended(null)
+            setMessages([])
+            console.log('successfully deleted')
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    }
+    console.log(chatHistory, 'chat history in Hook')
 
     return { 
         //to <ChatHistory/>
@@ -149,5 +192,9 @@ const fetcherById = async (id) => {
         fetcherById,
         // singleChat,
         value,
+        editor,
+        editId,
+        setEditId,
+        docsDel,
     }
 };

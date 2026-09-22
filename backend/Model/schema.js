@@ -46,7 +46,8 @@ chat.statics.created = async function created(docs) {
                     updatedAt : new Date()
                 }
             ]
-        }
+        },
+        { returnDocument : 'after'}
     )
 }
 

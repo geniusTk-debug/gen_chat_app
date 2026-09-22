@@ -7,10 +7,9 @@ import UserMessages from './UserMessages';
 export default function Chatroom({ 
       messages,
       loading,
-        // singleChat,
           view,
           title,
-          // value
+          
 }) {
   console.log(messages, 'messages in Chatromm')
 
@@ -35,9 +34,16 @@ export default function Chatroom({
           ( <div className="thinking">Thinking....</div> ) }        
 
         {messages.title === view &&
-        (<Chat_H 
-        messages={messages} />)
+
+        messages.map((message) => (
+
+          (<Chat_H 
+            key={message.id || message._id}
+            message={message}
+            />)
+        ))
         }
+
         
       </div>
     )

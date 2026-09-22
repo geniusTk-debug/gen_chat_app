@@ -1,32 +1,22 @@
 
 import './style/chatRoom.css';
-export default function Chat_H({ 
-    messages
-}) {
-console.log(messages, 'chat single here ****')
+export default function Chat_H({ message }) {
 return (
-    
-    <>
-
-        { messages && messages.map((ch) => (
-            <div className='chat-room' key={ch._id}>
-                {ch.role === 'user'
+    <div className='chat-room' >
+                {message.role === 'assistant'
                 ?
-                (<div className='user' >{ch.content} 
-                    <span className='user-time'>
-                        {new Date(ch.updatedAt).toLocaleTimeString() }</span>
+                (<div className='assistant' >{message.content} 
+                    <span className='assistant-time'>
+                        {new Date(message.updatedAt).toLocaleTimeString() } </span>
                 </div>)
                 :
-                (<div className='assistant' >{ch.content} 
-                    <span className='assistant-time'>
-                        {new Date(ch.updatedAt).toLocaleTimeString() } </span>
+                (<div className='user' >{message.content} 
+                    <span className='user-time'>
+                        {new Date(message.updatedAt).toLocaleTimeString() }</span>
                 </div>)}
 
                 
             </div>
-        ))}
-
-    </>
     
     )
 };

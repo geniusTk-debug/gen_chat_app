@@ -22,6 +22,7 @@ try {
 
     const reply = await res.json();
     const title = req.title;
+
     const userId = req.userId;
     const chatId = req.chatId
 
@@ -30,7 +31,6 @@ try {
     const roleText = reply.choices[0]?.message?.role || 'assistant';
     const contentText = reply.choices[0]?.message?.content || '';
     const chatTitle = title || client_content.slice(0, 40);
-
     let stored;
     if(chatId) {
         stored = await Chat.updated(
@@ -49,7 +49,7 @@ try {
         stored = await Chat.created(
             {
                 userId,
-                title : chatTitle,
+                title,
                 client_role,
                 client_content,
                 roleText,

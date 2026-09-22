@@ -9,6 +9,12 @@ router.get('/api/chat-history', controller.chatHistory);
 
 //get by id
 router.get('/api/chat/:id', controller.single)
+
+//update title
+router.patch('/api/user/chat/:id', controller.updateTitle)
+
+//delete chat docs
+router.delete('/api/user/chat/:id', controller.remove)
 //store on **
 router.post('/api/chat',controller.integrate);
 
