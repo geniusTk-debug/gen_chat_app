@@ -28,28 +28,48 @@ const chat = new Schema({
         
         
     }, {timestamps : true});
-chat.statics.created = async function created(docs) {
+// chat.statics.created = async function created(docs) {
     
-    return await this.create(
-        {
-            user : docs.userId,
-            title : docs.title,
-            messages : [
-                {
-                    role : docs.client_role,
-                    content : docs.client_content,
-                    updatedAt : new Date()
-                },
-                {
-                    role : docs.roleText,
-                    content : docs.contentText,
-                    updatedAt : new Date()
-                }
-            ]
-        },
-        { returnDocument : 'after'}
-    )
-}
+//     return await this.create(
+//         {
+//             user : docs.userId,
+//             title : docs.title,
+//             messages : [
+//                 {
+//                     role : docs.client_role,
+//                     content : docs.client_content,
+//                     updatedAt : new Date()
+//                 },
+//                 {
+//                     role : docs.roleText,
+//                     content : docs.contentText,
+//                     updatedAt : new Date()
+//                 }
+//             ]
+//         },
+//         { returnDocument : 'after'}
+//     )
+// }
+
+chat.statics.created = async function created(docs) {
+
+  const chatData = {
+    user: docs.userId,
+    title: docs.title,
+    messages: [
+      {
+        role: docs.client_role,
+        content: docs.client_content,
+      },
+      {
+        role: docs.roleText,
+        content: docs.contentText,
+      },
+    ],
+  };
+
+  return await this.create(chatData);
+};
 
 chat.statics.updated = async function updated(docs) {
     return await this.findOneAndUpdate(

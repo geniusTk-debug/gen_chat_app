@@ -70,7 +70,8 @@ const controller = {
     try {
     if(req.body) {
                         
-        const { title, value, chatId }  = req.body;
+        const { title, value, chatId } = req.body;
+        console.log(title, value, chatId, 'req.body in integrate')
         const question = {
             "model" : "openai/gpt-oss-20b",
             "messages" : [
@@ -82,6 +83,8 @@ const controller = {
         }
 
         const userId = req.user?.[0]?._id;
+        console.log(userId, 'userId in integrate')
+        // const userId = req.userId;
         const data = await askAI(
             {
                 res, 

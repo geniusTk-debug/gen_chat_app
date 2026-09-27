@@ -9,7 +9,8 @@ console.log(message, 'message in the UserMessages')
                         {message.content}
                     </ReactMarkDown>
                 <span className='user-time'>
-                    {message.time}
+                  {message.time ? message.time : 
+                    new Date(message.updatedAt).toLocaleTimeString() }
                 </span>
             </div>
         </div>

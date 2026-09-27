@@ -90,17 +90,23 @@ useEffect(() => {
                 setView(stored.title)
                 setChatId(stored._id)
                 setTitle('')
-                setChatHistory(prev => {
-                    const filtered = prev.filter(chat => chat._id !== stored._id);
-                    return [stored, ...filtered];
-                })
+                // setChatHistory(prev => {
+                //     const filtered = prev.filter(chat => chat._id !== stored._id);
+                //     return [stored, ...filtered];
+                // })
                 localStorage.setItem('currentChatId', stored._id)
             }
 
             setLoading(false);
-            window.scrollBy({ left : 0, top : 0, behavior : "smooth"})
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior : 'smooth'
+            })
 
-        };
+        } else {
+            setLoading(false)
+            console.log(await res.json(), 'in the requestor status not 200')
+        }
 
     } 
     catch (error) {
@@ -125,20 +131,30 @@ const fetcherById = async (id) => {
         }
 }
 
-const editor = async (id) => {
-
+const editor = async (value) => {
+console.log(value,editId,title, '----- value, editId, title in editor')
     try {
-        const res = await fetch(`http://localhost:3000/api/user/chat/${id}`, {
+        const res = await fetch(`http://localhost:3000/api/user/chat/${editId}`, {
         method : 'PATCH',
         credentials: 'include',
         headers : {
             'Content-Type' : 'application/json',
         },
-        body : JSON.stringify({ title })
+        body : JSON.stringify({ title : value })
     })
-    if(res.ok) {
+        if (res.ok) {
+            const data = await res.json();
         isExtended(null)
-        setEditId(null)
+            setEditId(null)
+            setValue('')
+            setView(data.title)
+            setChatHistory(prev => 
+                prev.map(t => 
+                    t._id === chatId
+                        ? { title : data.title }
+                        : t
+                )
+            )
     }
     } catch (error) {
         console.log(error)
@@ -151,14 +167,14 @@ const docsDel = async (_id) => {
             method : 'DELETE',
             credentials : 'include',
         })
-        if(del.ok) {
-            setChatId(null)
-            localStorage.removeItem('currentChatId')
-            setView('')
-            setTitle('')
-            isExtended(null)
-            setMessages([])
-            console.log('successfully deleted')
+        if (del.ok) {
+            if (chatId === _id) {
+                setView('')
+                setMessages([]);
+                setChatId(null);
+                localStorage.removeItem("currentChatId");
+                setChatHistory((prev) => prev.filter((del) => del._id !== _id));
+            }
         }
     } catch (error) {
         console.log(error)

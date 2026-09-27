@@ -10,7 +10,9 @@ export default function AssistantMessages({ message }) {
             </ReactMarkDown>
 
         <span className='assistant-time'>
-                {message.time} </span>
+                {message.time ? message.time : 
+                    new Date(message.updatedAt).toLocaleTimeString()}
+        </span>
         </div>
     </div>
   )

@@ -33,6 +33,7 @@ try {
     const chatTitle = title || client_content.slice(0, 40);
     let stored;
     if(chatId) {
+        console.log('in here at updated chat')
         stored = await Chat.updated(
             {
                 chatId,
@@ -45,11 +46,12 @@ try {
         )
     }
 
-    if(!stored) {
+    if (!stored) {
+        console.log('in here at create chat', title)
         stored = await Chat.created(
             {
                 userId,
-                title,
+                title : chatTitle || title,
                 client_role,
                 client_content,
                 roleText,

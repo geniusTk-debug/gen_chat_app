@@ -5,7 +5,12 @@
     padding-top: 10px;
     margin-top: 7px;
     box-sizing: border-box;
+    overflow-y: auto;
 
+}
+
+::-webkit-scrollbar{
+    width: 0;
 }
 
 .content-container ul{ 
@@ -17,9 +22,6 @@
     flex-direction: column;
     align-items: center;
 }
-
-
-
 
 .content-container form {
     min-width: 0;
@@ -47,6 +49,7 @@
     padding: 5px 10px;
    
 }
+
 textarea::-webkit-input-placeholder{
     text-align: center;
     font-size: 19px;
@@ -166,7 +169,8 @@ button.isEdit:hover{
 
 .content-container ul li:hover{
     cursor: pointer;
-    border-bottom: 2px solid;
+    /* border-bottom: 2px solid; */
+    border-radius: 15px;
 }
 
 .content-container ul li.swithch-section:hover{
@@ -247,6 +251,7 @@ li.active{
 .content-container ul:has(input.rename) li.active button.more-btn{
     display: none;
 }
+
 .content-container ul:has(.plus:hover) li.switch-section:not(.active.editing){
     width: 15%;
     border: 2px solid rgb(216, 176, 176);
@@ -264,7 +269,8 @@ li.active{
 }
 
 .content-container ul li.extended:hover{
-    border-bottom-width: 0;
+    /* border-bottom-width: 0; */
+    border-radius: 0;
 }
 
 .content-container ul li.switch-section{
@@ -297,9 +303,6 @@ li.active{
     align-items: center;
     gap: 30px;
 }
-
-
-
 
 
 .content-container ul .more-btn:hover{

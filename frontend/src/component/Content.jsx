@@ -28,10 +28,10 @@ export default function Content({
   
   
   const switchHandler = (e) => {
-    
+    e.preventDefault();
     if (extended) {
       e.preventDefault();
-      setTitle(e.target.elements.title.value)
+      setTitle(e.target.elements.title.value || e.target.value)
       localStorage.removeItem('currentChatId')
       setChatId(null);
       setMessages([])
@@ -41,7 +41,7 @@ export default function Content({
     }
     
     if (editId && editing) {
-      editor(editId)
+      editor(value)
     }
     if (!editId && !extended) {
       docsDel(chatId)
@@ -84,7 +84,7 @@ return (
               </button>
               <button
                 className="cancel-btn"
-                type="cancel"
+                type="button"
                 onClick={() => isExtended(null)}
               >
                 back
@@ -131,7 +131,7 @@ return (
                   id={t._id}
                     defaultValue={t.title}
                     onKeyDown={(e) => e.key === 'Enter' ? optionHandler(e) : 'console.log(e)'}
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => setValue(e.target.value)}
                 />
               )}
               <button

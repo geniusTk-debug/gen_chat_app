@@ -6,7 +6,7 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 60px;
     padding: 20px 50px;
     margin-bottom: 15px;
     box-sizing: border-box;
@@ -25,8 +25,8 @@
 .chat-room-container .chat-room .user{
     display: flex;
     min-width: 0;
-    min-height: 0;
     height: fit-content;
+    min-height: 0;
     max-width: 70%;
     padding-inline: 20px;
     padding-block: 5px;
@@ -34,8 +34,7 @@
     justify-content: center;
     align-self: flex-end;
     align-items: center;
-    text-align: start;
-    gap: 15px;
+    text-align: center;
     border: 0;
     border-right: 1px solid #2FBEE7;
     box-shadow: 1px 0px 1px 0px #2FBEE7;
@@ -57,8 +56,8 @@
     color: greenyellow;
     padding-bottom: 1px;
     position: absolute;
-    bottom: -10px;
-    right: 15px;
+    bottom: -20px;
+    right: 0;
 }
 
 
@@ -119,8 +118,8 @@
     font-weight: 500;
     color: greenyellow;
     position: absolute;
-    left: 15px;
-    top: -5px;
+    left: 0;
+    top: -20px;
 }
 
 .chat-room-container .thinking{
