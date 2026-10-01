@@ -73,29 +73,54 @@ useEffect(() => {
 
 
         if(res.status === 200 || res.ok) {
-            const data = await res.json();
-            const reply = data?.reply?.choices?.[0]?.message;
-            const stored = data?.stored;
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let assistantMessage = '';
 
-            if(reply) {
-                setMessages(prev=> [...prev, {
-                    id : crypto.randomUUID(),
-                    role : reply.role,
-                    content : reply.content,
-                    time : dateTime
-                }])
-            }
+            while (true) {
+                const data = await reader.read();
+                if (data.done) {
+                    break;
+                }
+                const dataStream = decoder.decode(data.value, {
+                  stream: true,
+                });
+                assistantMessage += dataStream;
 
-            if(stored) {
-                setView(stored.title)
-                setChatId(stored._id)
-                setTitle('')
-                // setChatHistory(prev => {
-                //     const filtered = prev.filter(chat => chat._id !== stored._id);
-                //     return [stored, ...filtered];
-                // })
-                localStorage.setItem('currentChatId', stored._id)
+                if (assistantMessage) {
+                    setMessages(prev => [...prev, {
+                        id: crypto.randomUUID(),
+                        role: assistantMessage?.role || 'assistant',
+                        content: assistantMessage || assistantMessage?.content || 'error showing content',
+                        time : dateTime
+                    }])
+                }
+
+                console.log('assistant stream here -----', assistantMessage)
             }
+            // const data = await res.json();
+            // const reply = data?.reply?.choices?.[0]?.message;
+            // const stored = data?.stored;
+
+            // if(reply) {
+            //     setMessages(prev=> [...prev, {
+            //         id : crypto.randomUUID(),
+            //         role : reply.role,
+            //         content : reply.content,
+            //         time : dateTime
+            //     }])
+            // }
+
+            // if(stored) {
+            //     setView(stored.title)
+            //     setChatId(stored._id)
+            //     setTitle('')
+            //     // setChatHistory(prev => {
+            //     //     const filtered = prev.filter(chat => chat._id !== stored._id);
+            //     //     return [stored, ...filtered];
+            //     // })
+            //     localStorage.setItem('currentChatId', stored._id)
+            // }
 
             setLoading(false);
             window.scrollTo({
