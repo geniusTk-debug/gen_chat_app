@@ -13,53 +13,13 @@ try {
     },
     body : JSON.stringify(content)
     });
-
+    console.log(res, 'res in askAI')
     if(!res.ok) {
         const errorText = await res.text();
         throw new Error(errorText || 'AI request failed');
     }
     return res;
-    // const reply = await res.json();
-    // const title = req.title;
 
-    // const userId = req.userId;
-    // const chatId = req.chatId
-
-    // const client_role = content.messages[0].role;
-    // const client_content = content.messages[0].content;
-    // const roleText = reply.choices[0]?.message?.role || 'assistant';
-    // const contentText = reply.choices[0]?.message?.content || '';
-    // const chatTitle = title || client_content.slice(0, 40);
-    // let stored;
-    // if(chatId) {
-    //     console.log('in here at updated chat')
-    //     stored = await Chat.updated(
-    //         {
-    //             chatId,
-    //             userId,
-    //             client_role,
-    //             client_content,
-    //             roleText,
-    //             contentText
-    //         }
-    //     )
-    // }
-
-    // if (!stored) {
-    //     console.log('in here at create chat', title)
-    //     stored = await Chat.created(
-    //         {
-    //             userId,
-    //             title : chatTitle || title,
-    //             client_role,
-    //             client_content,
-    //             roleText,
-    //             contentText
-    //         }
-    //     )
-    // }
-
-    // return { reply, stored };
 } catch (error) {
         console.log("inside catch",error?.message);
         throw error;

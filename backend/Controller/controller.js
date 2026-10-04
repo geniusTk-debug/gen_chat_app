@@ -72,6 +72,7 @@ const controller = {
                         
         const { title, value, chatId } = req.body;
         console.log(title, value, chatId, 'req.body in integrate')
+        
         const question = {
             "model" : "openai/gpt-oss-20b",
             "messages" : [

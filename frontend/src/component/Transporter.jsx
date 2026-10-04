@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import './style/transporter.css'
 
@@ -5,14 +6,18 @@ export default function Transpoter({
   requestor,
     loading,
 }) {
+  
 const [ value, setValue ] = useState('');
+
 
 const requestHandler = (e) => {
   e.preventDefault();
   requestor(e);
   setValue('')
 };
+
   return (
+    <>
         <div className="transporter-container">
           <form onSubmit={requestHandler} >
           
@@ -29,5 +34,6 @@ const requestHandler = (e) => {
                 (<div className="spinner-border"role="status"></div>)}
           </form>
         </div>
+</>
   )
 };
