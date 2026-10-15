@@ -1,7 +1,6 @@
 import ReactMarkDown from 'react-markdown';
 
 export default function AssistantMessages({ message }) {
-    console.log(message)
   return (
     <div className="chat-room">
         <div className='assistant' >

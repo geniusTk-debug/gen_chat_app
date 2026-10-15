@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.13.0"
+  }
+}

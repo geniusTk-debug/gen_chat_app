@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const ch_Schema = new Schema({
+    
     role : {
         type : String,
         required : true
@@ -19,12 +20,16 @@ const chat = new Schema({
             ref : 'user_genchat',
             required : true
         },
+        model : {
+            type : String,
+            required : true
+        },
         title : {
             type : String,
             required : true
         },
+
         messages : [ ch_Schema ]
-            
         
         
     }, {timestamps : true});
@@ -33,6 +38,7 @@ chat.statics.created = async function created(docs) {
 
   const chatData = {
     user: docs.userId,
+    model : docs.model,
     title: docs.title,
     messages: [
       {
@@ -44,6 +50,7 @@ chat.statics.created = async function created(docs) {
         content: docs.contentText,
       },
     ],
+    returnDocument : 'after'
   };
 
   return await this.create(chatData);
@@ -72,7 +79,7 @@ chat.statics.updated = async function updated(docs) {
             }}
         },
         {
-            returnDocument : 'after'
+            new : true
         }
     )
 }

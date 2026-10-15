@@ -12,7 +12,6 @@ export default function Chatroom({
           title,
           
 }) {
-  console.log(messages, 'messages in Chatromm')
   const [isNearBot, setIsNearBot] = useState(true);
   const chatRoomRef = useRef(null);
   const bottomRef = useRef(null)

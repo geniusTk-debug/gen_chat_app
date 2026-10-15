@@ -6,10 +6,12 @@ console.log(docs.title, '-----title are here in the storeKeeper ----')
 console.log(docs.value, '-----value are here in the storeKeeper ----')  
 console.log(docs.userId, '-----userId are here in the storeKeeper ----')
 console.log(docs.chatId, '-----chatId are here in the storeKeeper ----')
+console.log(docs.model, 'current model here in Store Keeper')
 
 try {
         let stored;
-if(docs.chatId) {
+if(docs.chatId !== "null" || null) {
+    console.log('is it here?')
         stored = await Chat.updated(
             {
                 chatId : docs.chatId,
@@ -23,9 +25,12 @@ if(docs.chatId) {
     }   
 
     if (!stored) {
+        console.log('or here')
+        console.log(docs.model)
         stored = await Chat.created(
             {
                 userId : docs.userId,
+                model : docs.model,
                 title : docs.title || docs.value.slice(0, 40),
                 client_role : 'user',
                 client_content : docs.value,

@@ -4,6 +4,8 @@ import User from "../Model/authSchema.js";
 import createToken from "../Helper/jwt.js";
 import { timeLimit } from "../Helper/jwt.js";
 import StoreKeeper from "../Service/storeKeeper.js";
+import { uploader } from "../Service/imageUploader.js";
+import { model } from "mongoose";
 const controller = {
 
     chatHistory : async (req,res) => {
@@ -66,27 +68,27 @@ const controller = {
 
 //working//
     integrate :async (req,res)=>{
-
-        try {
-            if (!req.body) return res.status(400).json('missing data');
-                        
-        const { title, value, chatId } = req.body;
-        console.log(title, value, chatId, 'req.body in integrate')
         
+        if (!req.body) return res.status(400).json('missing data');
+
+    try {
+                        
+        const incoming = req.body; //see more at frontend/useFetch
+
         const question = {
-            "model" : "openai/gpt-oss-20b",
+            "model" : incoming.model,
             "messages" : [
                 {
                     "role" : "user",
-                    "content" : value
+                    "content" : incoming.value
                 },
             ],
             stream: true
         }
 
         const userId = req.user?.[0]?._id;
+        const currentModel = question.model;
         console.log(userId, 'userId in integrate')
-        // const userId = req.userId;
         const data = await askAI(
             {
                 res, 
@@ -130,17 +132,18 @@ const controller = {
             }
         }
 
-        //for mongo db
+        //mongo db
         await StoreKeeper({
             fullResponse,
-            title,
-            value,
+            title : incoming.title,
+            value : incoming.value,
             userId,
-            chatId
+            chatId : incoming.chatId,
+            model : currentModel
         });
             res.end();
             
-            // return res.status(200).json(data)
+            return res.status(200).json(data)
     
     } catch (error) {
         console.log(error?.message);

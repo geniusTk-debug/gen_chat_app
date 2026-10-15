@@ -8,14 +8,17 @@ export default function useFetch(url) {
         const [messages, setMessages] = useState([]);
         const [ value, setValue ] = useState('');
                 const [loading, setLoading] = useState(false);
-            const [view, setView] = useState('');
+            const [viewId, setViewId] = useState('');
         const [title, setTitle] = useState('');
     const [chatId, setChatId] = useState(
             ()=>localStorage.getItem('currentChatId')
         );
-    const [extended, isExtended] = useState(null);
+    const [extended, isExtended] = useState('idle');
         const [editId, setEditId] = useState(null);
         // const [singleChat, setSingleChat] = useState('');
+        const [ model, setModel ] = useState('openai/gpt-oss-20b')
+        const [ src, setSrc ] = useState('')
+        const [ imgFile, setImgFile ] = useState('')
 
 //time function
 const time = new Date();
@@ -33,8 +36,12 @@ useEffect(() => {
 
         if(res.status === 200 || res.ok) {
             const data = await res.json();
-                setView(data.title)
+            console.log('data in useEffect should this when Refresh --', data)
                 setChatHistory(data);
+                data.map(viewById => 
+                    setViewId(viewById._id)
+                )
+                
         }
         else {
             console.log(
@@ -60,15 +67,21 @@ useEffect(() => {
                 content : value,
                 time : dateTime
             }])
+            const formData = new FormData();
 
-            const body = { title, value, chatId }; //chatId : null
+            formData.append("value", value)
+            formData.append("title", title)
+            formData.append("chatId", chatId)
+            formData.append("model", model)
+            formData.append("imgFile", imgFile)
+
         const res = await fetch(url,{
             method : 'POST',
                 credentials : 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-        },
-                        body : JSON.stringify(body)
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        // },
+                        body : formData
         });
 
 
@@ -144,10 +157,10 @@ const fetcherById = async (id) => {
         { credentials : 'include'})
         if(res.ok) {
             const data = await res.json();
-            console.log(data)
+            console.log(data, 'data in fetcherById')
             setMessages(data.messages)
-            setView(data?.title)
-            setChatId(data?._id)
+            // setView(data?.title)
+            setViewId(data?._id)
             localStorage.setItem('currentChatId', data?._id)
         }
 }
@@ -165,10 +178,11 @@ console.log(value,editId,title, '----- value, editId, title in editor')
     })
         if (res.ok) {
             const data = await res.json();
-        isExtended(null)
+        isExtended('idle')
             setEditId(null)
             setValue('')
-            setView(data.title)
+            isExtended(data.title)
+            // setView(data.title)
             setChatHistory(prev => 
                 prev.map(t => 
                     t._id === chatId
@@ -190,7 +204,7 @@ const docsDel = async (_id) => {
         })
         if (del.ok) {
             if (chatId === _id) {
-                setView('')
+                setViewId('')
                 setMessages([]);
                 setChatId(null);
                 localStorage.removeItem("currentChatId");
@@ -202,6 +216,21 @@ const docsDel = async (_id) => {
     }
     }
     console.log(chatHistory, 'chat history in Hook')
+
+    const uploadImg = (e) => {
+          const file = e.target.files[0];
+          
+          if(!file) return;
+
+          let previewImg = null;
+          if(previewImg) {
+            URL.revokeObjectURL(previewImg)
+          }
+          previewImg = URL.createObjectURL(file)
+          setSrc(previewImg); 
+          setImgFile(file);
+          
+    }
 
     return { 
         //to <ChatHistory/>
@@ -216,8 +245,8 @@ const docsDel = async (_id) => {
         loading ,
 
         //to <Content />
-        view,
-        setView,
+        viewId,
+        setViewId,
         title,
         setTitle,
 
@@ -233,5 +262,13 @@ const docsDel = async (_id) => {
         editId,
         setEditId,
         docsDel,
+
+        //to <ModelSelector />
+        model,
+        setModel,
+
+        //img
+        uploadImg,
+        src
     }
 };

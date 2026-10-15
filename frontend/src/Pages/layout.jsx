@@ -38,6 +38,8 @@ export default function Layout() {
           editId={genChat.editId}
           setEditId={genChat.setEditId}
           docsDel={genChat.docsDel}
+          model={genChat.model}
+          setModel={genChat.setModel}
           />
             
         </div> 
@@ -57,7 +59,9 @@ export default function Layout() {
 
           <Transpoter
           requestor={genChat.requestor}
-          loading={genChat.loading} />
+          loading={genChat.loading}
+          uploadImg={genChat.uploadImg}
+          src={genChat.src} />
 
       </main>
 

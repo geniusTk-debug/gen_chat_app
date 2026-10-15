@@ -13,7 +13,6 @@ try {
     },
     body : JSON.stringify(content)
     });
-    console.log(res, 'res in askAI')
     if(!res.ok) {
         const errorText = await res.text();
         throw new Error(errorText || 'AI request failed');

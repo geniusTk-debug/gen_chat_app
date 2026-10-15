@@ -1,6 +1,7 @@
 import express from 'express';
 import controller from '../Controller/controller.js';
 import authMiddleware from '../Middleware/authMiddleware.js';
+import { uploader } from '../Service/imageUploader.js';
 const router = express.Router();
 
 
@@ -16,7 +17,7 @@ router.patch('/api/user/chat/:id', controller.updateTitle)
 //delete chat docs
 router.delete('/api/user/chat/:id', controller.remove)
 //store on **
-router.post('/api/chat',controller.integrate);
+router.post('/api/chat',uploader.single('imgFile'),controller.integrate);
 
 
 
