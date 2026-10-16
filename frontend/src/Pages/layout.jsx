@@ -22,8 +22,8 @@ export default function Layout() {
 
           
           <Content
-          view={genChat.view}
-          setView={genChat.setView}
+          viewId={genChat.viewId}
+          setViewId={genChat.setViewId}
           title={genChat.title}
           setTitle={genChat.setTitle}
           extended={genChat.extended}

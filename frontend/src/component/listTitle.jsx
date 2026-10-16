@@ -1,7 +1,7 @@
 export default function List_title (
     {
         viewId,
-        chatId,
+         chatId,
         editId,
         editing,
         fetcherById,
@@ -12,13 +12,16 @@ export default function List_title (
     }
 ) {
 
+  console.log('view id at list title', viewId)
+  console.log('chat Id at list title', chatId)
+
     return(
-        <>
+        <ul key={t._id}>
          <li
-              className={`${viewId == chatId ? "active" : ""}
+              className={`${viewId === t._id ? "active" : ""}
                 ${editId === t._id ? "isEdit" : ""}
                 ${editing ? "editing" : "" } `}
-              onClick={() => fetcherById(t._id)}
+              onClick={() => fetcherById(editId ? '' : t._id)}
             >
               {editId !== t._id ? (
                 t.title
@@ -49,6 +52,6 @@ export default function List_title (
                 </svg>
               </button>
             </li>
-        </>
+        </ul>
     )
 }

@@ -1,127 +1,108 @@
-.layout-container .user-state-container{
-
-  display: block; 
-  width: 100%;
-  height: 20%;
-
+.layout-container .user-state-container {
   position: relative;
-  background: #000;
-  backdrop-filter: blur(45px);
-  box-sizing: border-box;
-  
-
-}
-
-.user-state-container .user-state{
-  flex: 1;
-  min-width: 0;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  
-
-}
-
-.user-state span{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 2px 3px;
-  color: white;
-  font-weight: 600;
-  font-size: medium;
-  border: 2px solid #1F7D9D;
-  border-top: none;
-  z-index: 1;
-}
-
-.user-state button{
-  flex: 0 0 100%;
-  height: 40px;
+  z-index: 5;
+  flex: 0 0 auto;
   width: 100%;
-  
-  display: contents;
+  padding: 0;
+  border: 1px solid var(--sidebar-line);
+  border-radius: 12px;
+  background: var(--sidebar-surface);
+  box-sizing: border-box;
+}
+
+.user-state-container .user-state {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px;
+}
+
+.user-state span {
+  min-width: 0;
+  flex: 1;
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  color: var(--sidebar-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-state button {
+  display: flex;
+  flex: 0 0 30px;
   align-items: center;
   justify-content: center;
-  color: white;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: contrast(50%);
-  border: none;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--sidebar-line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sidebar-muted);
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
 }
 
-.user-state button svg{
+.user-state button:hover {
+  background: var(--sidebar-surface-hover);
+  color: var(--sidebar-accent);
+}
 
+.user-state button svg {
   display: block;
-  margin: -2px auto 0;
-  color: white;
-  background: #062337;
-  border-bottom-left-radius: 100px;
-  border-bottom-right-radius: 100px;
-  transition: all .3s ease-out;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border-radius: 0;
+  background: transparent;
+  color: currentColor;
 }
-
-.user-state button svg:hover{
-  background: #1F7D9D;
-}
-  
 
 .user-state-container ul {
-  padding: 10px 0;
-  width: 100%;
-  list-style: none;
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
-  border-bottom: 2px double #1F7D9D;
-  
-  
-}
-
-
-
-.user-state-container ul li button{
-  width: 90%;
-  height: auto;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  margin: 5px auto 0;
-  color: white;
-  background: #000;
-  backdrop-filter: blur(20px);
-
-
-  font-weight: 400;
-  font-size: small;
-  border: 2px double;
-    box-shadow: 1px 0px 1px 0px inset;
-    border-style: groove;
-    border-radius: 50px;
-  
-  transition: all .3s ease-out;
-
-}
-
-.user-state-container ul li .color-red {
-  color: red;
-  font-weight: 500;
-  font-size: small;
-  box-shadow: none;
-}
-
-.user-state-container ul li .color-red:hover{
-  color: white;
-  box-shadow: none;
-}
-
-.user-state-container ul li button:hover{
-  cursor: pointer;
+  gap: 4px;
   width: 100%;
-  border-radius: 5px;
-  border-color: #2fbee7;
-  background: linear-gradient(to right, #082134, #2FBEE7, #082134 );
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--sidebar-line);
+  border-radius: 10px;
+  background: var(--sidebar-surface);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  box-sizing: border-box;
 }
 
+.user-state-container ul li button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 36px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--sidebar-text);
+  font-size: 0.88rem;
+  text-align: left;
+  cursor: pointer;
+}
 
+.user-state-container ul li button:hover { background: var(--sidebar-surface-hover); }
+.user-state-container ul li .color-red { color: #f09292; }
+.user-state-container ul li .color-red:hover { color: #ffb4b4; }
 
+.user-state-container button:focus-visible {
+  outline: 2px solid var(--sidebar-accent);
+  outline-offset: 2px;
+}

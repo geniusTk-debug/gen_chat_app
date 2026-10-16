@@ -153,6 +153,7 @@ useEffect(() => {
 
 const fetcherById = async (id) => {
     console.log(id, 'id in fetcher by Id')
+    if(!id) return;
     const res = await fetch(`http://localhost:3000/api/chat/${id}`,
         { credentials : 'include'})
         if(res.ok) {
@@ -178,16 +179,17 @@ console.log(value,editId,title, '----- value, editId, title in editor')
     })
         if (res.ok) {
             const data = await res.json();
+    
         isExtended('idle')
             setEditId(null)
             setValue('')
-            isExtended(data.title)
-            // setView(data.title)
+            // setViewId(chatId);
             setChatHistory(prev => 
                 prev.map(t => 
                     t._id === chatId
-                        ? { title : data.title }
-                        : t
+                    ? { title : data.title }
+                    : t
+                   
                 )
             )
     }
@@ -206,7 +208,7 @@ const docsDel = async (_id) => {
             if (chatId === _id) {
                 setViewId('')
                 setMessages([]);
-                setChatId(null);
+                // setChatId(null);
                 localStorage.removeItem("currentChatId");
                 setChatHistory((prev) => prev.filter((del) => del._id !== _id));
             }

@@ -1,329 +1,248 @@
-.layout-container .side-bar-container .content-container{
-    display: block;
-    flex: 1;
-    border-top: 3px solid;
-    padding-top: 10px;
-    margin-top: 7px;
-    box-sizing: border-box;
-    overflow-y: auto;
-
+.layout-container .side-bar-container .content-container {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 14px 2px 4px;
+  border-top: 1px solid var(--sidebar-line);
+  box-sizing: border-box;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(154, 171, 183, 0.28) transparent;
 }
 
-::-webkit-scrollbar{
-    width: 0;
+.content-container::-webkit-scrollbar { width: 5px; }
+.content-container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(154, 171, 183, 0.28);
 }
 
-.content-container ul{ 
-   
-    list-style: none;
-    padding: 0;
-    gap: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.content-container section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 0;
 }
 
-.content-container form {
-    min-width: 0;
-    min-height: 0;
-    height: 100%;
-    display: grid;
-    gap: 10px;
-    grid-template-columns: 1fr;
-    box-sizing: border-box;
-    transition: all .3s ease-out;
-    
-}
-.content-container form input{
-    color: white;
-    font-weight: 500;
-    font-style: oblique;
-    font-size: small;
-    background: transparent;
-    backdrop-filter: blur(50px);
-    display: flex;
-    text-align: start;
-    min-width: 0;
-    min-width: 250px;
-    border-radius: 5px;
-    padding: 5px 10px;
-   
+.content-container section form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  padding: 12px;
+  border: 1px solid var(--sidebar-line);
+  border-radius: 12px;
+  background: var(--sidebar-surface);
+  box-sizing: border-box;
 }
 
-textarea::-webkit-input-placeholder{
-    text-align: center;
-    font-size: 19px;
-    
+.content-container section form input,
+.content-container ul input.rename {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 10px 11px;
+  border: 1px solid var(--sidebar-line);
+  border-radius: 8px;
+  background: #101923;
+  color: var(--sidebar-text);
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: left;
 }
 
+.content-container input::placeholder { color: var(--sidebar-muted); }
 
-form .flex-btn{
-    display: flex;
-    width: 50%;
-    justify-content: space-between;
-    margin: 0 auto;
-    padding: 0;
-    box-sizing: border-box;
+.content-container .flex-btn {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
 }
 
-.flex-btn .ok-btn,
-.flex-btn .cancel-btn{
-    width: fit-content; 
-    display: block;
-    padding: 0;
-    padding: 5px;
-    font-weight: 600;
-    font-size: small;
-    font-style: italic;
-    text-shadow: 0px 1px 1px;
-    border: 2px solid transparent;
-    background: transparent;
-    backdrop-filter: blur(50px);
-    backdrop-filter: brightness(100%);
-
-    
+.content-container .flex-btn button,
+.content-container .editor button {
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid var(--sidebar-line);
+  border-radius: 8px;
+  background: var(--sidebar-surface-hover);
+  color: var(--sidebar-text);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
 }
 
-.flex-btn button:hover{
-    border-color: white;
-    backdrop-filter: brightness(50%);
+.content-container .flex-btn .ok-btn,
+.content-container .editor button:first-child {
+  border-color: rgba(57, 197, 200, 0.35);
+  background: var(--sidebar-accent-soft);
+  color: var(--sidebar-accent);
 }
 
-.content-container ul li button{
-    display: contents;
-    
+.content-container .flex-btn button:hover,
+.content-container .editor button:hover {
+  border-color: var(--sidebar-accent);
+  transform: translateY(-1px);
 }
 
-.content-container ul li .plus{
-    
-    display: flex;
-    margin: 0 auto;
-    color: white;
-    width: 24px;
-    height: 24px;
-    border: 2px solid transparent;
+.content-container .plus-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid rgba(57, 197, 200, 0.32);
+  border-radius: 10px;
+  background: var(--sidebar-accent-soft);
+  color: var(--sidebar-accent);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
 }
 
-
-.plus:hover{
-    
-    border-color: rgba(81, 183, 247, 0.829);
-    padding: 1px;
-
+.content-container .plus-btn:hover {
+  border-color: var(--sidebar-accent);
+  background: rgba(57, 197, 200, 0.2);
 }
 
-.content-container ul li.isEdit{
-    width: 100%;
-    border-radius: 0;
-    padding: 0;
-    background: white;
-    transition: all .3s ease-out;
-    
-    
+.content-container ul {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-button.isEdit:hover{
-    background: none;
+.content-container ul li,
+.content-container > li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--sidebar-muted);
+  font-size: 0.9rem;
+  font-weight: 450;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
 }
 
-.content-container ul li {
-    display: flex;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: white;
-    backdrop-filter: saturate(60%);
-    font-weight: 200;
-    font-size: medium;
-    transition: all .3s ease-out;
+.content-container ul li:not(.active):hover {
+  background: var(--sidebar-surface-hover);
+  color: var(--sidebar-text);
+  cursor: pointer;
 }
 
-.content-container ul li {
-    padding: 5px 10px;
-    background: linear-gradient(to bottom, #015f9a,#014356);
-    border-bottom: 0;
-    
+.content-container ul li.active,
+.content-container > li.active {
+  width: 100%;
+  border-color: rgba(57, 197, 200, 0.19);
+  background: var(--sidebar-accent-soft);
+  color: var(--sidebar-text);
+  text-shadow: none;
 }
 
-.content-container ul li:not(.active) {
-    width: 100%;
-    
-    backdrop-filter: blur(60px);
+.content-container ul li.active:hover { border-radius: 9px; }
+.content-container > li.active button {
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.content-container ul li.active.editing {
-    border-bottom-right-radius: 0;
+.content-container ul li .plus {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  color: currentColor;
 }
 
-
-.content-container ul li.active{
-    width: 85%;
-    background: linear-gradient(to left, #082134, #2FBEE7, #2FBEE7 );
-    border-top: 2px solid transparent;
-    border-bottom: 2px solid;
-    text-shadow: 1px 1px 1px rgba(170, 168, 168, 0.557);
-    border-bottom-right-radius: 15px;
-    position: relative;
-    transition: all .3s ease-out;
+.content-container ul li.switch-section,
+.content-container ul li.extended-new {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
 }
 
-.content-container ul li:hover{
-    cursor: pointer;
-    /* border-bottom: 2px solid; */
-    border-radius: 15px;
+.content-container ul li.extended-new { overflow: visible; }
+.content-container ul li.isEdit { padding: 4px; background: var(--sidebar-surface); }
+
+.content-container ul input.rename {
+  border-color: rgba(57, 197, 200, 0.48);
+  font-weight: 500;
 }
 
-.content-container ul li.swithch-section:hover{
-    border: none;
+.content-container ul li .more-btn {
+  display: flex;
+  flex: 0 0 28px;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--sidebar-muted);
+  cursor: pointer;
+  opacity: 0;
 }
 
-.content-container ul li.active:hover{
-    .more-btn{
-        display: block;
-        background:transparent;
-        color: lightskyblue;
-    position: absolute;
-    right: 0;
-    bottom: -20px;
-    border: 0;
-    padding: 0;
-    border-top: 8px double;
-    }
-    .more-btn:hover{
-        color: #023442; 
-        border-top-style: double;
-    }
-    
-    font-weight: 300;
-    font-size: small;
-    border-radius: 0%;
-    white-space: pre-wrap;
-    cursor:default;
+.content-container ul li:hover .more-btn,
+.content-container ul li.active .more-btn:focus-visible { opacity: 1; }
+.content-container ul li .more-btn:hover { background: var(--sidebar-bg); color: var(--sidebar-accent); }
+.content-container ul li .more-btn svg { width: 18px; height: 18px; opacity: 1; }
 
+.content-container ul:has(input.rename) li.active.isEdit.editing {
+  margin: 0;
+  border-color: transparent;
+  background: transparent;
 }
 
-.content-container ul:has(.more-btn:hover)
-li.active{
-    background: linear-gradient(to right, #082134,#2FBEE7);
-    /* border-top-color: white;
-    border-bottom-width: 0; */
-} svg{
-    opacity: 1;
+.content-container ul:has(input.rename) li.active button.more-btn { display: none; }
+
+.content-container .editor {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 8px 2px 10px;
 }
 
-.content-container ul .more-btn{
-    display: none;
+.content-container input:focus-visible,
+.content-container button:focus-visible {
+  outline: 2px solid var(--sidebar-accent);
+  outline-offset: 2px;
 }
 
-.more-btn svg{
-    opacity: 0;
-}
-
-
-
-
-.content-container ul input.rename{
-    width: 100% !important;
-    display: block;
-    border-radius: 0;
-    z-index: 1;
-    background: transparent;
-    color: white;
-    border: 2px solid #2fbee7;
-    padding: 5px;
-    border-top: none;
-    border-bottom: none;
-    border-style: groove;
-    font-weight: bold;
-    font-size: small;
-    font-style: italic;
-    margin: 0 auto;
-}
-
-.content-container ul:has(input.rename) li.active.isEdit.editing{
-    border-radius: 0;
-    padding: 0;
-    margin: 0;
-    background: transparent;
-    border-color: #2FBEE7;
-}
-
-.content-container ul:has(input.rename) li.active button.more-btn{
-    display: none;
-}
-
-.content-container ul:has(.plus:hover) li.switch-section:not(.active.editing){
-    width: 15%;
-    border: 2px solid rgb(216, 176, 176);
-    border-bottom-width: 0;
-    border-top-width: 0;
-    border-radius: 50px;
-    transition: all .3s ease-in;
-}
-
-.content-container ul li.extended-new{
-    background: transparent;
-    display: block;
-    padding: 0;
-    margin: 0 auto;
-}
-
-.content-container ul li.extended-new:hover{
-    /* border-bottom-width: 0; */
-    border-radius: 0;
-}
-
-.content-container ul li.switch-section{
-    width: 100%;
-    background: transparent;
-    backdrop-filter: blur(60px);
-    display: block;
-    margin: 0 auto;
-    padding: 1px 0;
-}
-.content-container ul input{
-    width: 100%;
-    margin: 0 auto;
-    box-shadow: 0%;
-    border: 2px solid rgb(152, 203, 235);
-    border-right: none;
-    border-left: none;
-}
-
-
-.content-container ul li button input:hover{
-    color: white;
-    border-color: white;
-    background: #926f72;
-}
-
-.content-container ul .editor{
-    
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-
-.content-container ul .more-btn:hover{
-    margin-top: -20px;
-}
-
-
-.editor button{
-    display: flex;
-    border-radius: 10px;
-    border: 2px solid;
-    border-style: groove;
-    background: black;
-    color: white;
-    font-weight: 500;
-    font-size: small;
-}
-
-.editor button:hover{
-    cursor: pointer;
-    border-radius: 0;
-    color: #2fbee7;
-
+@media (prefers-reduced-motion: reduce) {
+  .content-container *, .content-container *::before, .content-container *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

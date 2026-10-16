@@ -36,7 +36,6 @@ export default function Content({
   const switchHandler = (e) => {
     e.preventDefault();
     if (extended === 'new') {
-      e.preventDefault();
       setTitle(e.target.elements.title.value || e.target.value)
       localStorage.removeItem('currentChatId')
       // setChatId(null);
@@ -70,7 +69,7 @@ export default function Content({
 
 return (
   <div className="content-container">
-    <ul>
+    <React.Fragment>
       <New_comversation 
       extended={extended}
       editId={editId}
@@ -97,8 +96,9 @@ return (
             optionHandler={optionHandler}
             />
 
-            {editing && viewId == t.title && (
+            {editing && viewId == t._id && (
               <Editor
+              t={t}
               editId={editId}
               setEditId={setEditId}
               isEditing={isEditing}
@@ -112,7 +112,7 @@ return (
       viewId={viewId}
       title={title}
       />
-    </ul>
+    </React.Fragment>
   </div>
 );
 }
