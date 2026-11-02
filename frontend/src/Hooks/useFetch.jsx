@@ -1,24 +1,27 @@
 import { useState, useEffect } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { useCallback } from "react";
 
 export default function useFetch(url) {
     
-    const { isAuthenticated } = useAuthContext();
+    const { isAuthenticated, refreshedId } = useAuthContext();
     const [ chatHistory, setChatHistory ] = useState([]);
         const [messages, setMessages] = useState([]);
         const [ value, setValue ] = useState('');
                 const [loading, setLoading] = useState(false);
-            const [viewId, setViewId] = useState('');
-        const [title, setTitle] = useState('');
+            const [viewState, setViewState] = useState('');
+        const [newTitle, setNewTitle] = useState('');
     const [chatId, setChatId] = useState(
             ()=>localStorage.getItem('currentChatId')
         );
-    const [extended, isExtended] = useState('idle');
+    const [isNew, setIsNew] = useState(false);
+    const [ moreBtn, setMoreBtn ] = useState(false);
         const [editId, setEditId] = useState(null);
-        // const [singleChat, setSingleChat] = useState('');
+        const [isRename, setIsRename] = useState(false)
         const [ model, setModel ] = useState('openai/gpt-oss-20b')
         const [ src, setSrc ] = useState('')
         const [ imgFile, setImgFile ] = useState('')
+
 
 //time function
 const time = new Date();
@@ -38,9 +41,7 @@ useEffect(() => {
             const data = await res.json();
             console.log('data in useEffect should this when Refresh --', data)
                 setChatHistory(data);
-                data.map(viewById => 
-                    setViewId(viewById._id)
-                )
+                console.log(data, 'chat history in useEffect')
                 
         }
         else {
@@ -70,8 +71,8 @@ useEffect(() => {
             const formData = new FormData();
 
             formData.append("value", value)
-            formData.append("title", title)
-            formData.append("chatId", chatId)
+            formData.append("title", newTitle)
+            if(chatId) formData.append("chatId", chatId); 
             formData.append("model", model)
             formData.append("imgFile", imgFile)
 
@@ -83,9 +84,12 @@ useEffect(() => {
         // },
                         body : formData
         });
-
+        console.log(res.headers.get('G-Chat-Id'), 'header in requestor')
+        
+        chatIdUpdater(res.headers.get('G-Chat-Id'))
 
         if(res.status === 200 || res.ok) {
+
             const reader = res.body.getReader();
             const decoder = new TextDecoder();
             let buffer = '';
@@ -100,6 +104,7 @@ useEffect(() => {
                     }])
 
             while (true) {
+
                 const data = await reader.read();
                 if (data.done) {
                     break;
@@ -136,22 +141,22 @@ useEffect(() => {
                     top: document.documentElement.scrollHeight,
                     behavior : 'smooth'
                 })
-            } 
-            else {
-            setLoading(false)
-            console.log(await res.json(), 'in the requestor status not 200')
-        }
-
+                setIsNew(false);
+            } else {
+                chatIdUpdater(null)
+                setLoading(false);
+                setIsNew(false)
+            }
     } 
     catch (error) {
-
         console.log('inside catch',error)
             setLoading(false);
+        throw new Error('inside catch requestor', error)
     }
 
     };
 
-const fetcherById = async (id) => {
+const fetcherById = useCallback(async (id) => {
     console.log(id, 'id in fetcher by Id')
     if(!id) return;
     const res = await fetch(`http://localhost:3000/api/chat/${id}`,
@@ -160,14 +165,18 @@ const fetcherById = async (id) => {
             const data = await res.json();
             console.log(data, 'data in fetcherById')
             setMessages(data.messages)
-            // setView(data?.title)
-            setViewId(data?._id)
-            localStorage.setItem('currentChatId', data?._id)
+            chatIdUpdater(data._id);
         }
-}
+},[]);
+
+useEffect(() => {
+    if(!refreshedId) return;
+    fetcherById(refreshedId);
+}, [refreshedId, fetcherById])
 
 const editor = async (value) => {
-console.log(value,editId,title, '----- value, editId, title in editor')
+    
+console.log(value,editId, '----- value, editId, title in editor')
     try {
         const res = await fetch(`http://localhost:3000/api/user/chat/${editId}`, {
         method : 'PATCH',
@@ -179,19 +188,20 @@ console.log(value,editId,title, '----- value, editId, title in editor')
     })
         if (res.ok) {
             const data = await res.json();
-    
-        isExtended('idle')
-            setEditId(null)
-            setValue('')
-            // setViewId(chatId);
+            console.log(data, 'data in editor')
+            
+            chatIdUpdater(data._id);
             setChatHistory(prev => 
                 prev.map(t => 
                     t._id === chatId
-                    ? { title : data.title }
+                    ? { ...t, title : data.title }
                     : t
-                   
                 )
             )
+            setIsRename(false)
+            setEditId(null)
+            setMoreBtn(false)
+            setValue('')
     }
     } catch (error) {
         console.log(error)
@@ -199,25 +209,46 @@ console.log(value,editId,title, '----- value, editId, title in editor')
 }
 
 const docsDel = async (_id) => {
+    console.log(_id, 'in id in docs del')
+    console.log(chatId, 'chatId in docsDel')
+    if (chatId === _id) {
     try {
         const del = await fetch(`http://localhost:3000/api/user/chat/${_id}`,{
             method : 'DELETE',
             credentials : 'include',
         })
         if (del.ok) {
-            if (chatId === _id) {
-                setViewId('')
                 setMessages([]);
-                // setChatId(null);
-                localStorage.removeItem("currentChatId");
-                setChatHistory((prev) => prev.filter((del) => del._id !== _id));
+                setIsRename(false);
+                setMoreBtn(false);
+                setEditId(null);              
+                
+                setChatHistory((prev) => {
+                    const updatedDocs = prev.filter(delDoc => 
+                        delDoc?._id !== _id
+                    );
+
+                    if(chatId === _id) {
+                        const throwDocs = prev.findIndex(
+                            doc => doc._id === _id
+                        );
+                        const remainingDocs = updatedDocs[Math.min(throwDocs, updatedDocs.length - 1)];
+                        chatIdUpdater(remainingDocs?._id ?? null);
+                        return updatedDocs;
+                    }
+                })
+
+
+                // setChatHistory((prev) => 
+                //     prev.filter((del) =>
+                //          del._id !== _id));
+                // chatIdUpdater(null);
             }
-        }
-    } catch (error) {
-        console.log(error)
+        } catch (error) {
+            console.log(error)
     }
     }
-    console.log(chatHistory, 'chat history in Hook')
+    }
 
     const uploadImg = (e) => {
           const file = e.target.files[0];
@@ -234,6 +265,48 @@ const docsDel = async (_id) => {
           
     }
 
+    function chatIdUpdater(id) {
+        setChatId(id ?? null);
+
+        if(id) {
+            localStorage.setItem('currentChatId', id)
+        } else {
+            localStorage.removeItem('currentChatId')
+        }
+        
+    }
+
+    function newChatHandler (e) {
+       e.preventDefault();
+    
+      setNewTitle(e.target.elements.title.value || e.target.value)
+      setMessages([])
+      setIsNew(false);
+      chatIdUpdater(null);
+      setValue('')
+    }
+
+    function moreBtnHandler (id,e) {
+        console.log(moreBtn, 'more btn at click')
+        e.preventDefault()
+        if(!moreBtn) {
+            setMoreBtn(true);
+        setEditId(id)    
+        } else {
+            setMoreBtn(false)
+        setEditId(null)
+        }
+        
+    }
+
+    function canBtnHandler (e) {
+        e.preventDefault();
+        setIsRename(false);
+      
+    }
+
+    
+
     return { 
         //to <ChatHistory/>
         chatHistory,
@@ -247,14 +320,11 @@ const docsDel = async (_id) => {
         loading ,
 
         //to <Content />
-        viewId,
-        setViewId,
-        title,
-        setTitle,
+        newTitle,
+        setNewTitle,
 
         //to <Layout />
-        extended,
-        isExtended,
+        
         chatId,
         setChatId,
         fetcherById,
@@ -271,6 +341,25 @@ const docsDel = async (_id) => {
 
         //img
         uploadImg,
-        src
+        src,
+
+        chatIdUpdater,
+        newChatHandler,
+
+        viewState,
+        setViewState,
+
+        isRename,
+        setIsRename,
+        isNew,
+        setIsNew,
+
+        moreBtnHandler,
+        moreBtn,
+        setMoreBtn,
+
+        canBtnHandler
+
+
     }
 };

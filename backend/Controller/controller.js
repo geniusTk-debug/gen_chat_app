@@ -5,7 +5,7 @@ import createToken from "../Helper/jwt.js";
 import { timeLimit } from "../Helper/jwt.js";
 import StoreKeeper from "../Service/storeKeeper.js";
 import { uploader } from "../Service/imageUploader.js";
-import { model } from "mongoose";
+import { model, Types } from "mongoose";
 const controller = {
 
     chatHistory : async (req,res) => {
@@ -34,10 +34,11 @@ const controller = {
 
     updateTitle : async (req, res) => {
         try {
+
             const updateT = await Chat.findByIdAndUpdate(req.params.id, {
                 title : req.body.title,
-                
             }, { returnDocument : 'after' })
+
             if(updateT) {
                 console.log(updateT, "title updated in db")
                 return res.status(200).json(updateT)
@@ -66,13 +67,12 @@ const controller = {
     },
 
 
-//working//
-    integrate :async (req,res)=>{
+integrate :async (req,res)=> {
         
-        if (!req.body) return res.status(400).json('missing data');
+    if (!req.body) return res.status(400).json('missing data');
 
     try {
-                        
+
         const incoming = req.body; //see more at frontend/useFetch
 
         const question = {
@@ -87,26 +87,33 @@ const controller = {
         }
 
         const userId = req.user?.[0]?._id;
+        const testId = !incoming.chatId || incoming.chatId === "null";
+
+        const chatId = testId
+                           ? new Types.ObjectId().toString()
+                           : incoming.chatId;
+
         const currentModel = question.model;
-        console.log(userId, 'userId in integrate')
         const data = await askAI(
             {
                 res, 
                 question, 
             }
         );
+        res.setHeader('G-Chat-Id', chatId)
         const reader = data.body.getReader();
             const decoder = new TextDecoder();
             let buffer = '';
             let fullResponse = '';
+
         while (true) {
             const stream = await reader.read();
-            if (stream.done) {
-                break;
-            }
+            if (stream.done) break;
+            
             buffer += decoder.decode(stream.value, {
               stream: true,
             });
+
             const events = buffer.split('\n\n');
             buffer = events.pop();
 
@@ -119,39 +126,39 @@ const controller = {
 
                 const data = line.replace(/^data:\s*/, "");
 
-                if (data === '[DONE]') {
-                    break;
-                }
-
+                if (data === '[DONE]') break;
+                
                 const json = JSON.parse(data);
                 const streamText = json.choices?.[0]?.delta?.content;
                 if (streamText) {
                     fullResponse += streamText;
                     res.write(streamText);
                 }
-            }
-        }
+    }
+} //while loop end here..
 
-        //mongo db
-        await StoreKeeper({
-            fullResponse,
-            title : incoming.title,
-            value : incoming.value,
-            userId,
-            chatId : incoming.chatId,
-            model : currentModel
-        });
-            res.end();
-            
-            return res.status(200).json(data)
+//mongo db
+const db = await StoreKeeper({
+    fullResponse,
+    title : incoming.title,
+    client_text : incoming.value,
+    userId,
+    chatId : new Types.ObjectId(chatId),
+    model : currentModel
+});
+if(db) {
     
-    } catch (error) {
-        console.log(error?.message);
-        
-        }
-        if(!res.headersSent) return res.status(500).json(error?.message || "Something went wrong");
-                    
-    },
+    console.log(db, 'return data from mongo db')
+    res.status(200).end(); //stream end
+}
+
+if(!res.headersSent) return res.status(500).json(error?.message || "Something went wrong");
+
+} catch (error) {
+        console.log(error, 'inside catch')
+        return res.status(400).json(error ?? error.message)
+    }
+}, //integrate function end here
 
     
     register : async (req, res) => {
@@ -174,7 +181,7 @@ const controller = {
             const { email, password } = req.body;
             
             const user = await User.login( email, password );
-            const token = await createToken(user._id);
+            const token = createToken(user._id);
             res.cookie('jwt', token, { httpOnly : true, maxAge : timeLimit * 1000 })
             
             return res.status(200).json(user);

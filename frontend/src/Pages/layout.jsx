@@ -10,8 +10,8 @@ export default function Layout() {
     const url = 'http://localhost:3000/api/chat';
     const { user } = useAuthContext();
     const genChat = useFetch(url);
-    console.log(genChat.chatHistory)
-    console.log(genChat.title, 'title in Layout')
+    console.log(genChat.chatHistory, 'chatHistory in layout.jsx')
+    
   return (
     <div className='layout-container' >
 
@@ -24,22 +24,32 @@ export default function Layout() {
           <Content
           viewId={genChat.viewId}
           setViewId={genChat.setViewId}
-          title={genChat.title}
-          setTitle={genChat.setTitle}
+          newTitle={genChat.newTitle}
+          setNewTitle={genChat.setNewTitle}
           extended={genChat.extended}
           isExtended={genChat.isExtended}
           chatId={genChat.chatId}
           setChatId={genChat.setChatId}
+          chatIdUpdater={genChat.chatIdUpdater}
+          newChatHandler={genChat.newChatHandler}
+          moreBtnHandler={genChat.moreBtnHandler}
+          moreBtn={genChat.moreBtn}
           chatHistory={genChat.chatHistory }
           fetcherById={genChat.fetcherById}
           setMessages={genChat.setMessages}
           value={ genChat.value }
+          setIsRename={genChat.setIsRename}
+          isRename={genChat.isRename}
           editor={genChat.editor}
           editId={genChat.editId}
           setEditId={genChat.setEditId}
           docsDel={genChat.docsDel}
           model={genChat.model}
           setModel={genChat.setModel}
+          isNew={genChat.isNew}
+          setIsNew={genChat.setIsNew}
+          setMoreBtn={genChat.setMoreBtn}
+          canBtnHandler={genChat.canBtnHandler}
           />
             
         </div> 
@@ -53,7 +63,7 @@ export default function Layout() {
           chatHistory={genChat.chatHistory}
           singleChat={genChat.singleChat}
           view={genChat.view}
-          title={genChat.title}
+          newTitle={genChat.newTitle}
           chatId={genChat.chatId}
           />
 

@@ -1,23 +1,17 @@
-export default function New_title(
-    {
-        extended,
-        viewId,
-        title
-    }
-) {
+
+export default function New_title({ t, chatId, newTitle, isNew}) {
 
     return (
-        <>
-         {extended === viewId && (
-        <li className={viewId === extended ? "active" : ""}>
-          <button
-            type="none"
-            className="active">
+    <>
+         
+            <li className="active">
+              <button
+                type="button"
+                className="active">
             
-            {title}</button>
-        </li>
-      )}
-        </>
+                {newTitle}</button>
+            </li>
+    </>
     )
     
 }

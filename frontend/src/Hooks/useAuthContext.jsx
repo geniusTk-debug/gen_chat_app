@@ -7,6 +7,7 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [ refreshedId, setRefreshedId ] = useState(null)
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -17,10 +18,16 @@ export const AuthContextProvider = ({ children }) => {
                 const res = await fetch('http://localhost:3000/api/user/me', {
             credentials : 'include'
         })
+
         if(res.ok) {
             const user = await res.json();
             setUser(user);
             setLoading(false)
+
+            const id = localStorage.getItem('currentChatId')
+            if(!id) return;
+            console.log('id in context api', id)
+            setRefreshedId(id)
 
         } else {
             setUser(null);
@@ -29,6 +36,9 @@ export const AuthContextProvider = ({ children }) => {
 
         }
             authChecker();
+
+            
+
         } catch (error) {
             console.log(error)
         }
@@ -37,7 +47,7 @@ export const AuthContextProvider = ({ children }) => {
     const login = (user) => {
         setUser(user)
         
-    }
+    };
 
     const logout = () => {
         setUser(null);
@@ -48,7 +58,8 @@ export const AuthContextProvider = ({ children }) => {
         loading,
         isAuthenticated : !!user,
         login,
-        logout
+        logout,
+        refreshedId
 
     }
 

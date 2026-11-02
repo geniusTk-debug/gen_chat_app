@@ -9,7 +9,8 @@ export default function Chatroom({
       messages,
       loading,
           view,
-          title,
+          newTitle,
+          chatId,
           
 }) {
   const [isNearBot, setIsNearBot] = useState(true);
@@ -40,9 +41,9 @@ export default function Chatroom({
         ref={chatRoomRef}
         onScroll={scrollHandler}
       >
-        {!view && title && <EmptyState />}
+        {newTitle && <EmptyState />}
 
-        {messages &&
+        {messages && chatId &&
           messages.map((message) =>
             message.role === "assistant" ? (
               <AssistantMessages
@@ -56,7 +57,7 @@ export default function Chatroom({
 
         {loading && <div className="thinking">Thinking....</div>}
 
-        {messages.title === view &&
+        {messages.title === newTitle && chatId && 
           messages.map((message) => (
             <Chat_H key={message.id || message._id} message={message} />
           ))}

@@ -1,29 +1,33 @@
+import { useState } from "react";
 import ModelSelector from "./modelSelector";
 
 export default function New_comversation({
-    extended,
-    editId,
-    switchHandler,
+    isNew,
+    setIsNew,
+    newChatHandler,
+
     value,
     setValue,
     model,
     setModel,
-    isExtended,
-    setTitle
+    isRename
+    // setNewTitle,
+    // viewState,
+    
 
-}) 
-{
+}) {
+  const [ localView, setLocalView ] = useState('');
     return (
       
             
-      <section className={extended === 'new' ? 'extended-new' : 'switch-section'}>
-                    {extended === 'new' && !editId ? (
+      <section className={isNew ? 'extended-new' : 'switch-section'}>
+                    {isNew ? (
               <>
-              <form onSubmit={switchHandler}>
+              <form onSubmit={newChatHandler}>
                 <input
                   placeholder="Title"
                   value={value}
-                  className={extended === 'rename' ? 'rename' : ''}
+                  className={isNew ? 'rename' : ''}
                   type="text"
                   name="title"
                   onChange={(e) => setValue(e.target.value)}
@@ -36,12 +40,13 @@ export default function New_comversation({
                 <button
                   className="cancel-btn"
                   type="button"
-                  onClick={() => isExtended('idle')}
+                  onClick={() => setIsNew(!isNew)}
                 >
                   back
                 </button>
               </div>
             </form>
+
             <ModelSelector
             model={model}
             setModel={setModel}
@@ -51,8 +56,7 @@ export default function New_comversation({
             <button
               className="plus-btn"
                 onClick={() => {
-                  isExtended('new');
-                  setTitle("");
+                  setIsNew(true)
                 }}
               >
                 <svg

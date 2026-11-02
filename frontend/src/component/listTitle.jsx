@@ -1,44 +1,46 @@
+import New_title from "./newTitle"
 export default function List_title (
     {
-        viewId,
          chatId,
         editId,
-        editing,
         fetcherById,
         setValue,
         t,
-        optionHandler
+        newTitle,
+        isNew,
+        moreBtnHandler,
+        moreBtn,
+        isRename,
+        editor
 
     }
 ) {
 
-  console.log('view id at list title', viewId)
   console.log('chat Id at list title', chatId)
 
     return(
         <ul key={t._id}>
          <li
-              className={`${viewId === t._id ? "active" : ""}
-                ${editId === t._id ? "isEdit" : ""}
-                ${editing ? "editing" : "" } `}
-              onClick={() => fetcherById(editId ? '' : t._id)}
+              className={`${chatId === t._id ? "active" : ""}
+                ${isRename ? "isEdit" : ""}`}
+              onClick={(e) => fetcherById(editId ? '' : t._id, e)}
             >
-              {editId !== t._id ? (
+              {!isRename ? (
                 t.title
-              ) : (
-                <input
+              ) : (t._id === editId && <input
                     type="text"
                     className='rename'
                   name="rename"
                   id={t._id}
                     defaultValue={t.title}
-                    onKeyDown={(e) => e.key === 'Enter' ? optionHandler(e) : 'console.log(e)'}
+                    onKeyDown={(e) => e.key === 'Enter' ? editor(e.target.value) : console.log(e)}
                   onChange={(e) => setValue(e.target.value)}
                 />
               )}
               <button
-                onClick={optionHandler}
+                onClick={(e)=>moreBtnHandler(t._id,e)}
                 className="more-btn"
+                style={{display: isRename ? 'none' : 'flex'}}
                 type="button"
               >
                 <svg
@@ -52,6 +54,14 @@ export default function List_title (
                 </svg>
               </button>
             </li>
+
+            {newTitle && <New_title
+            newTitle={newTitle}
+            isNew={isNew}
+            t={t}
+            chatId={chatId}
+
+            />}
         </ul>
     )
 }

@@ -5,8 +5,6 @@ import Register from "../Pages/register";
 import Login from '../Pages/login';
 import { AuthContextProvider } from '../Hooks/useAuthContext'
 import ProtectedPages from "../middleware/protectedPages";
-import Chatbox from "../component/chatRoom";
-import Chathistory from "../component/Chat_H";
 
 export default function Route() {
     const router = createBrowserRouter(
@@ -25,15 +23,6 @@ export default function Route() {
                         )
 
                     },
-                    {
-                        path : 'user/main-room',
-                        element : <Chatbox />
-                    },
-                    {
-                        path : 'user/chat/:id',
-                        element : <Chathistory />
-                    },
-
                     {
                         path : 'user/register',
                         element : <Register />

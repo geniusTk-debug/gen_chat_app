@@ -1,47 +1,29 @@
 import Chat from '../Model/schema.js';
 
+
 export default async function StoreKeeper(docs) {
 
-console.log(docs.title, '-----title are here in the storeKeeper ----')
-console.log(docs.value, '-----value are here in the storeKeeper ----')  
-console.log(docs.userId, '-----userId are here in the storeKeeper ----')
-console.log(docs.chatId, '-----chatId are here in the storeKeeper ----')
-console.log(docs.model, 'current model here in Store Keeper')
+    const filter = { _id : docs.chatId, user : docs.userId }
 
-try {
-        let stored;
-if(docs.chatId !== "null" || null) {
-    console.log('is it here?')
-        stored = await Chat.updated(
+    const otv = { model : docs.model, title : docs.title }
+
+    const messages = [
+        { role : 'user', content : docs.client_text, updatedAt : new Date() },
+        { role : 'assistant', content : docs.fullResponse, updatedAt : new Date() }
+    ]
+    
+    return await Chat.findByIdAndUpdate(filter,
+        { $setOnInsert : otv,
+                $push : { messages : { 
+                    $each : messages }}
+            },
+
             {
-                chatId : docs.chatId,
-                userId : docs.userId,
-                client_role : 'user',
-                client_content : docs.value,
-                roleText : 'assistant',
-                contentText : docs.fullResponse
-            }
-        )
-    }   
+                upsert : true,
+                new : true,
+                // runValidators : true,
+                // setDefaultsOnInsert : true
 
-    if (!stored) {
-        console.log('or here')
-        console.log(docs.model)
-        stored = await Chat.created(
-            {
-                userId : docs.userId,
-                model : docs.model,
-                title : docs.title || docs.value.slice(0, 40),
-                client_role : 'user',
-                client_content : docs.value,
-                roleText : 'assistant',
-                contentText : docs.fullResponse
             }
-        )
-    }
-    return stored;
-} catch (error) {
-    console.log(error?.message, '-----error are here in the storeKeeper ----')
-}
-
+    )
 }

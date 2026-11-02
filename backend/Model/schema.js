@@ -20,6 +20,11 @@ const chat = new Schema({
             ref : 'user_genchat',
             required : true
         },
+        _id : {
+            type : Schema.Types.ObjectId,
+            ref : 'user_genchat',
+            required : true
+        },
         model : {
             type : String,
             required : true
@@ -34,57 +39,10 @@ const chat = new Schema({
         
     }, {timestamps : true});
 
-chat.statics.created = async function created(docs) {
-
-  const chatData = {
-    user: docs.userId,
-    model : docs.model,
-    title: docs.title,
-    messages: [
-      {
-        role: docs.client_role,
-        content: docs.client_content,
-      },
-      {
-        role: docs.roleText,
-        content: docs.contentText,
-      },
-    ],
-    returnDocument : 'after'
-  };
-
-  return await this.create(chatData);
-};
-
-chat.statics.updated = async function updated(docs) {
-    return await this.findOneAndUpdate(
-        {
-            _id : docs.chatId,
-            user : docs.userId
-        },
-        {
-            $push : { messages : {
-                $each : [
-                    {
-                        role : docs.client_role,
-                        content : docs.client_content,
-                        updatedAt : new Date()
-                    },
-                    {
-                        role : docs.roleText,
-                        content : docs.contentText,
-                        updatedAt : new Date()
-                    }
-                ]
-            }}
-        },
-        {
-            new : true
-        }
-    )
-}
-
-
 const Chat = model('Chat', chat);
 export default Chat;
+
+
+
+
 

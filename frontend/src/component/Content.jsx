@@ -8,12 +8,10 @@ import New_title from './newTitle';
 export default function Content({ 
     chatHistory, 
     viewId, 
-    setViewId, 
-    title, 
-    setTitle, 
+    newTitle, 
+    setNewTitle, 
     extended, 
     isExtended, 
-    // setChatId,
     chatId,
     fetcherById,
     setMessages,
@@ -23,63 +21,36 @@ export default function Content({
     docsDel,
     model,
     setModel,
-    
+    chatIdUpdater,
+    newChatHandler,
+    isNew,
+    setIsNew,
+    moreBtnHandler,
+    moreBtn,
+    isRename,
+    setIsRename,
+    setMoreBtn,
+    canBtnHandler
+        
     }) {
 
-
-    
     const [value, setValue] = useState('')
   const [editing, isEditing] = useState(null);
-
-    
-  
-  const switchHandler = (e) => {
-    e.preventDefault();
-    if (extended === 'new') {
-      setTitle(e.target.elements.title.value || e.target.value)
-      localStorage.removeItem('currentChatId')
-      // setChatId(null);
-      setMessages([])
-      isExtended('idle');
-      setViewId(extended)
-      setValue('')
-    }
-    
-    if (editId && editing) {
-      editor(value)
-    }
-    if (!editId && extended === 'idle') {
-      docsDel(chatId)
-    }
-    
-  }
-  
-  const optionHandler = (e) => {
-    e.preventDefault();
-    if (e.key === "Enter") {
-      switchHandler(e)
-    }
-    if (editing) {
-      isEditing(null);
-    } else {
-      isEditing(true);
-    } 
-    
-  }
+  console.log(chatHistory, 'chatHistory in Content.jsx')
 
 return (
+
   <div className="content-container">
     <React.Fragment>
       <New_comversation 
-      extended={extended}
-      editId={editId}
-    switchHandler={switchHandler}
+      isNew={isNew}
+      setIsNew={setIsNew}
+    newChatHandler={newChatHandler}
     value={value}
     setValue={setValue}
     model={model}
     setModel={setModel}
-    isExtended={isExtended}
-    setTitle={setTitle}
+    isRename={isRename}
        />
 
       {chatHistory &&
@@ -89,30 +60,42 @@ return (
             viewId={viewId}
             chatId={chatId}
             editId={editId}
-            editing={editing}
+            isRename={isRename}
             fetcherById={fetcherById}
             setValue={setValue}
+            moreBtnHandler={moreBtnHandler}
             t={t}
-            optionHandler={optionHandler}
+            editor={editor}
+            isNew={isNew}
             />
 
-            {editing && viewId == t._id && (
+              {t && t._id === editId && 
               <Editor
               t={t}
               editId={editId}
               setEditId={setEditId}
               isEditing={isEditing}
-              switchHandler={switchHandler}
-              />
-            )}
+              setIsRename={setIsRename}
+              isRename={isRename}
+              editor={editor}
+              docsDel={docsDel}
+              model={model}
+              setModel={setModel}
+              moreBtn={moreBtn}
+              setMoreBtn={setMoreBtn}
+              chatId={chatId}
+              canBtnHandler={canBtnHandler}
+              value={value}
+              />}
           </React.Fragment>
         ))}
+      {newTitle && 
       <New_title
-      extended={extended}
-      viewId={viewId}
-      title={title}
-      />
+      newTitle={newTitle}
+      chatId={chatId}
+      />}
     </React.Fragment>
+
   </div>
-);
+)
 }
